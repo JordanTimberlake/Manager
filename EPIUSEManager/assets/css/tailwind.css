@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.dark {
+    @apply bg-neutral-800 text-white;
+    --primary-text: #fff;
+    --secondary-text: #ddd;
+    --accent: #35CE8D;
+    --primary-bg: #01161E;
+    --secondary-bg: #124559;
+    --border-color: #555;
+}
+
+.light {
+    @apply bg-gray-100 text-black;
+    --accent: #35CE8D;
+}
