@@ -1,11 +1,14 @@
 <script>
+// const session = useSupabaseSession()
+
 definePageMeta({
-    middleware: 'auth'
+    // middleware: 'auth'
 })
+
 </script>
 
 <template>
-    <div>
+    <div class="test">
         <h1>Home</h1>
     </div>
 </template>

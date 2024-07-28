@@ -1,9 +1,9 @@
-<script setup lang="ts">
+<script setup>
 
 definePageMeta({
     title: 'Home',
     description: 'Home page description',
-    image: 'https://example.com/image.jpg',
+    // image: 'https://example.com/image.jpg',
     // url: 'https://example.com',
     keywords: 'sign up, create, an, account, epiuse, manager',
     layout: 'userauth',
@@ -14,18 +14,7 @@ useSeoMeta({
   description: 'EPIUSE manager account creation page',
 })
 
-useHead({
-  htmlAttrs: {
-    lang: 'en'
-  },
-  link: [
-    {
-      rel: 'icon',
-      type: 'image/png',
-      href: '/favicon.png'
-    }
-  ]
-})
+const supabase = useSupabaseClient()
 
 const userData = ref({
     name: '',
@@ -52,12 +41,25 @@ const colorMode = useColorMode()
 //     </select>
 // </div>
 
-const handleCreateAccount = () => {
+const handleCreateAccount = async () => {
     if(userData.value.email === '' || userData.value.password === '' || userData.value.name === '' || userData.value.surname === '') {
         alert('Please fill in all fields')
         return
     }
-    // Add logic for account creation here
+    try {
+        loading.value = true
+        const { error } = await supabase.auth.signUp({
+            email: userData.email,
+            password: userData.password,
+        })
+        if (error) throw error
+        alert('Account created successfully!')
+        
+    } catch (error) {
+        alert(error.error_description || error.message)
+    } finally {
+        loading.value = false
+    }
 }
 
 </script>

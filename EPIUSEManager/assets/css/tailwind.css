@@ -6,10 +6,12 @@
     @apply bg-neutral-800 text-white;
     --primary-text: #fff;
     --secondary-text: #ddd;
-    --accent: #35CE8D;
+    --accent: #00ff95;
+    --accent-text: #fff;
     --primary-bg: #01161E;
     --secondary-bg: #124559;
     --border-color: #555;
+    --hover: #124559bb;
 }
 
 .light {
