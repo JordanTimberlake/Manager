@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 definePageMeta({
     title: 'Home',
     description: 'Home page description',
@@ -8,32 +8,47 @@ definePageMeta({
     layout: 'userauth',
 })
 
-let userData = {
-    name: '',
-    surname: '',
+useSeoMeta({
+  title: 'Log in',
+  description: 'EPIUSE manager account creation page',
+})
+
+const supabase = useSupabaseClient()
+
+const userData = ref({
     email: '',
     password: '',
-    confirmPassword: '',
+})
+
+const loading = ref(false)
+const email = ref('')
+
+const login = async () => {
+    try {
+        loading.value = true
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: userData.email,
+            password: userData.password,
+        })
+        if (error) throw error
+        alert('Logged in successfully!')
+    } catch (error) {
+        alert(error.error_description || error.message)
+    } finally {
+        loading.value = false
+    }
 }
+
 </script>
 
 <template>
-    <!-- <div>
-        <h1>Color mode: {{ $colorMode.value }}</h1>
-        <select v-model="$colorMode.preference">
-            <option value="system">System</option>
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-            <option value="sepia">Sepia</option>
-        </select>
-    </div> -->
     <div class="userAuth p-10">
         <div class="w-3/5 mx-auto border border-slate-600 rounded-md p-10">
             <div class="pb-6">
                 <h1 class="text-3xl font-semibold text-left">
                     Log In
                 </h1>
-                <p class="text-sm">Don't have an account? <a class="underline" href="/">Create an account</a></p>
+                <p class="text-sm">Don't have an account? <a class="underline" href="/signup">Create an account</a></p>
             </div>
             <div class="w-full flex flex-row justify-between gap-4">
                 <form class="w-1/2">
@@ -48,9 +63,11 @@ let userData = {
                             class="shadow appearance-none border border-red rounded w-full py-2 px-3 mb-3 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                     <div class="flex items-center justify-between">
-                        <a href="/" class="underline">Sign up instead</a>
+                        <a href="/signup" class="underline">Sign up instead</a>
                         <button class="font-bold py-2 px-4 rounded-full w-1/2 focus:outline-none focus:shadow-outline"
-                            style="background-color: var(--accent);" type="button">
+                            style="background-color: var(--accent);" type="button"
+                            @click="login"
+                            >
                             Log In
                         </button>
                     </div>

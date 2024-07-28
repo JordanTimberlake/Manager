@@ -2,7 +2,15 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/color-mode', "@nuxt/ui", "nuxt-icons"],
+  modules: [
+    '@nuxtjs/tailwindcss',
+    '@nuxtjs/color-mode',
+    "@nuxt/ui",
+    "nuxt-icons",
+    "@nuxtjs/supabase",
+    '@primevue/nuxt-module',
+    "@nuxt/icon"
+  ],
   colorMode: {
     preference: 'system', // default value of $colorMode.preference
     fallback: 'light', // fallback value if not system preference found
@@ -21,5 +29,10 @@ export default defineNuxtConfig({
     },
     config: {},
     viewer: true,
+  },
+  supabase: {
+    url: process.env.SUPABASE_URL,
+    key: process.env.SUPABASE_KEY,
+    redirect: false,
   },
 })
