@@ -6,6 +6,22 @@ definePageMeta({
     //   middleware: 'auth',
 });
 
+
+let employees = [
+    {
+        id: 1,
+        name: 'John',
+        surname: 'Doe',
+        line_manager: null,
+    },
+    {
+        id: 2,
+        name: 'Employee 2',
+        surname: 'Surname',
+        line_manager: 1,
+    }
+]
+
 onMounted(() => {
     const nodes = new DataSet([
         {
