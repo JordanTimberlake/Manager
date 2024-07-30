@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +29,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0','localhost']
 
 
 # Application definition
@@ -44,7 +47,6 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware'
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -89,8 +91,8 @@ DATABASES = {
         "NAME": "postgres",
         "USER": os.getenv('SUPABASE_USER'),
         "PASSWORD": os.getenv('SUPABASE_PWORD'),
-        "HOST": os.getenv('SUPABASE_URL', 'localhost'),
-        "PORT": os.getenv('SUPABASE_PORT','5432'),
+        "HOST": os.getenv('SUPABASE_HOST', 'localhost'),
+        "PORT": os.getenv('SUPABASE_HOST_PORT','5432'),
     }
 }
 
