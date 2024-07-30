@@ -1,6 +1,8 @@
-# EPIUSE Africa Tech Assessment
+# Manager application
 
-<img src="https://8124098.fs1.hubspotusercontent-na1.net/hub/8124098/hubfs/EU%20Theme/EPI-USE-logo.png?width=1707&height=442&name=EPI-USE-logo.png" alt="epiuselogo" />
+## Brief description
+
+Will show an organisations hierarchy of employees all in one system
 
 ## Overview
 
