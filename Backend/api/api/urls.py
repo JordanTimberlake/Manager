@@ -20,7 +20,13 @@ from core import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('employees/', views.employeesView.as_view(), name='Employee List'),
-    path('managers/', views.managerView.as_view(), name='Managers List'),
-    path('signup/', views.signup, name='Sign up')
+    path('employees/', views.EmployeesView.as_view(), name='Employee List'),
+    path('managers/', views.ManagerView.as_view(), name='Managers List'),
+    path('auth/signup', views.Auth_User.signUp, name='User Sign Up'),
+    path('auth/signin', views.Auth_User.signIn, name='User Sign In'),
+    path('auth/signout', views.Auth_User.signOut, name='User Sign Out'),
+    path('employee/update', views.update_employee, name='Update Employee'),
+    # path('employee/delete', views.delete_employee, name='Delete Employee'),
+    # path('employee/create', views.create_employee, name='Create Employee'),
+    path('employee/create_manager', views.Create_Manager, name='Create Manager'),
 ]

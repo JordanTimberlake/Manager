@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -141,8 +142,20 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # add this
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',  # Update this with your Nuxt frontend URL
+]
 
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:3000",
-# ]
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',  # Update this with your Nuxt frontend URL
+]
+
+# Ensure CSRF_COOKIE settings
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SECURE = True  # Set to False for local development without HTTPS
+CSRF_COOKIE_SAMESITE = 'Lax'  # Can be 'Strict' or 'None' depending on your needs
+
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = True  # Set to False for local development without HTTPS
+SESSION_COOKIE_SAMESITE = 'Lax'  # Can be 'Strict' or 'None' depending on your needs
