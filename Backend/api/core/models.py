@@ -13,6 +13,7 @@ class Manager(models.Model):
         return self.e_id
 
 class Employees(models.Model):
+    # Change ID to bigint such that I can properly use it to reference the user on postman requests
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, auto_created=True)
     u_id = models.ForeignKey(User, on_delete=models.CASCADE, default=99999999)
     e_id = models.BigIntegerField(unique=True, auto_created=True, verbose_name='ID')

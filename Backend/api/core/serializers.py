@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email')  # Add any other fields you need
+        fields = ('id', 'first_name', 'last_name', 'email')  # Add any other fields you need
 
 class Employees_Serializer(serializers.ModelSerializer):
     user = UserSerializer(source='u_id')  # Reference to the related UserSerializer
@@ -17,4 +17,4 @@ class Employees_Serializer(serializers.ModelSerializer):
 class Manager_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Manager
-        fields = ('employee')
+        fields = ('id', 'e_id')

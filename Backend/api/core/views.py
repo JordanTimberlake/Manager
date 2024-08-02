@@ -12,11 +12,17 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.middleware.csrf import get_token
 
 # Create your views here.
 
 from .models import Employees, Manager
 from .serializers import Employees_Serializer, Manager_Serializer
+
+@ensure_csrf_cookie
+def get_csrf_token(request):
+    return JsonResponse({'message': 'CSRF cookie set','csrfToken': get_token(request)})
 
 class EmployeesView(generics.ListAPIView):
     queryset = Employees.objects.all()
@@ -43,7 +49,7 @@ class Auth_User(View):
             employee_id = Employees.objects.get(u_id=user).id
             return JsonResponse({'status': 'success', 'message': 'User authenticated successfully', 'user_id': user.id}, status=200)
         else:
-            return JsonResponse({'status': 'error', 'message': 'Invalid credentials'}, status=400)
+            return JsonResponse({'status': 'error', 'message': 'Invalid credentials'}, status=401)
     
     @csrf_exempt
     @require_http_methods(["POST"])
@@ -64,7 +70,6 @@ class Auth_User(View):
             new_user.save()
 
             # first add the new user then add the employee
-
             new_employee = Employees(u_id=new_user, created_at=timezone.now(), updated_at=timezone.now(), e_id=new_user.id)
             new_employee.clean()
             new_employee.save()
@@ -90,6 +95,23 @@ class Auth_User(View):
         logout(request)
         return JsonResponse({'status': 'success', 'message': 'User signed out successfully'}, status=200)
 
+@csrf_exempt # This is to allow POST requests without CSRF token for Dev
+@require_http_methods(["GET"])
+def get_employee(request, id):
+    try:
+        employee = Employees.objects.get(u_id=id)
+        if employee:
+            return JsonResponse({'status': 'success', 'message': 'Employee found', 'data': Employees_Serializer(employee).data}, status=200)
+    except Employees.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Employee not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+
+@csrf_exempt
+@require_http_methods(["GET"])
+def get_employees(request):
+    employees = Employees.objects.all()
+    return JsonResponse({'status': 'success', 'message': 'Employees found', 'data': Employees_Serializer(employees, many=True).data}, status=200)
 
 @csrf_exempt # This is to allow POST requests without CSRF token for Dev
 @require_http_methods(["PUT"])
@@ -101,10 +123,11 @@ def update_employee(request):
         e_birth_date = data.get('birth_date')
         e_salary = data.get('salary')
         e_hired_date = data.get('hired_date')
+        e_position = data.get('position')
         e_line_manager = data.get('line_manager_e_id')
+        e_is_manager = data.get('is_manager')
 
         employee = Employees.objects.get(u_id=id)
-        manager = Manager.objects.get(e_id=e_line_manager)
         if employee:
             if e_birth_date is not None:
                 employee.birth_date = e_birth_date
@@ -112,8 +135,24 @@ def update_employee(request):
                 employee.salary = e_salary
             if e_hired_date is not None:
                 employee.hired_date = e_hired_date
+            if e_position is not None:
+                employee.position = e_position
             if e_line_manager is not None:
-                employee.line_manager_id = manager.e_id
+                employee.line_Manager = Manager.objects.get(e_id=e_line_manager)
+            if e_is_manager is not None:
+                if e_is_manager:
+                    employee.is_Manager = e_is_manager
+                    if not Manager.objects.filter(e_id=employee.e_id).exists():
+                        new_Manager = Manager(e_id=employee.e_id)
+                        new_Manager.clean()
+                        new_Manager.save()
+                else:
+                    employee.is_Manager = e_is_manager
+                    if Manager.objects.filter(e_id=employee.e_id).exists():
+                        Manager.objects.get(e_id=employee.e_id).delete()
+
+
+
             employee.updated_at = timezone.now()
 
             employee.full_clean()  # Validate before saving
@@ -129,12 +168,27 @@ def update_employee(request):
         return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
 
+@csrf_exempt # This is to allow POST requests without CSRF token for Dev
+@require_http_methods(["DELETE"])
+def delete_employee(request):
+    try:
+        data = json.loads(request.body)
+        id = data.get('u_id')
 
-## Check the validity of this request when integrating
+        employee = Employees.objects.get(u_id=id)
+        if employee:
+            employee.delete()
+
+        return JsonResponse({'status': 'success', 'message': 'Employee deleted successfully'}, status=200)
+    except Employees.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Employee not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+
 # request to make current signing in employee a manager
 @csrf_exempt # This is to allow POST requests without CSRF token for Dev
 @require_http_methods(["POST"])
-def Create_Manager(request):
+def make_manager(request):
     data = json.loads(request.body)
     u_id = data.get('u_id')
 
@@ -146,7 +200,6 @@ def Create_Manager(request):
         if Manager.objects.filter(e_id=e_id).exists():
             return JsonResponse({'status': 'error', 'message': 'Already a manager'}, status=409)
         
-        employee.position = 'Manager'
         employee.is_Manager = True
         employee.updated_at = timezone.now()
         employee.full_clean()  # Validate before saving
@@ -163,3 +216,26 @@ def Create_Manager(request):
         return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=400)
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def create_employee(request):
+    data = json.loads(request.body)
+    first_name = data.get('first_name')
+    last_name = data.get('last_name')
+    email = data.get('email')
+
+    if User.objects.filter(email=email).exists():
+        return JsonResponse({'status': 'error', 'message': 'Email is already in use'}, status=409)
+    
+    try:
+        # first add the new user then add the employee
+
+        new_employee = Employees(u_id=new_user, created_at=timezone.now(), updated_at=timezone.now(), e_id=new_user.id)
+        new_employee.clean()
+        new_employee.save()
+
+        login(request, new_user)  # Automatically log in the user after signing up
+        return JsonResponse({'status': 'success', 'message': 'User signed up successfully', 'user_id': new_user.id}, status=201)
+    except ValidationError as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)

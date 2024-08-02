@@ -5,7 +5,7 @@ import AppFooter from '~/components/AppFooter.vue'
 </script>
 
 <template>
-    <div>
+    <div class="main">
         <AppSidebar />
         <div class="slot">
             <slot />
@@ -15,6 +15,10 @@ import AppFooter from '~/components/AppFooter.vue'
 </template>
 
 <style>
+.main {
+    background-image: linear-gradient(90deg, #01161E 5%, #124559 100%);
+}
+
 .slot {
     margin-left: 190px; 
     /* width of sidebar + padding size */

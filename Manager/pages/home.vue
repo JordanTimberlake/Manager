@@ -1,11 +1,15 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted } from 'vue';
-import { Network, DataSet } from 'vis-network/standalone/esm/vis-network';
+import { DataSet, Network } from 'vis-network/standalone';
+// APEXCHARTSjs
 
 definePageMeta({
-    //   middleware: 'auth',
+    // middleware: 'auth',
+    title: 'Home',
+    description: 'Home page description',
 });
 
+const user_id = useCookie('user_id');
 
 let employees = [
     {
@@ -53,7 +57,7 @@ let employees = [
     },
 ]
 
-const nodeBGpicker = (employeeRole) => {
+const nodeBGpicker = (employeeRole: any) => {
     if (employeeRole === 'CEO') {
         return '#D7263D' // Crimson Red
     } else if (employeeRole === 'Manager') {
@@ -97,160 +101,12 @@ onMounted(() => {
 
     const employeeEdges = new DataSet(
         employees
-            .filter((employee) => employee.line_manager !== null)
-            .map((employee) => ({
-                from: employee.line_manager,
-                to: employee.id,
-            }))
+        .filter((employee) => employee.line_manager !== null)
+        .map((employee) => ({
+            from: employee.line_manager,
+            to: employee.id,
+        }))
     );
-
-    console.log("employee edges: ", employeeEdges.get())
-
-    const nodes = new DataSet([
-        {
-            id: 1,
-            label: 'CEO',
-            shape: 'circularImage', // Can be 'dot', 'circle', 'box', 'ellipse', 'circularImage', etc.
-            image: '/images/CV_PicLQuality.jpg', // Path to an image for the node
-            size: 30, // Size of the node
-            color: {
-                border: '#2B7CE9',
-                background: '#97C2FC',
-                highlight: {
-                    border: '#2B7CE9',
-                    background: '#D2E5FF',
-                },
-                hover: {
-                    border: '#2B7CE9',
-                    background: '#D2E5FF',
-                },
-            },
-            font: {
-                size: 14, // Size of the label text
-                face: 'Tahoma', // Font face
-                align: 'center',
-                color: '#FFFFFF', // Label color
-            },
-            borderWidth: 2,
-        },
-        {
-            id: 2,
-            label: 'CEO',
-            shape: 'circularImage', // Can be 'dot', 'circle', 'box', 'ellipse', 'circularImage', etc.
-            image: '/images/CV_PicLQuality.jpg', // Path to an image for the node
-            size: 30, // Size of the node
-            color: {
-                border: '#2B7CE9',
-                background: '#97C2FC',
-                highlight: {
-                    border: '#2B7CE9',
-                    background: '#D2E5FF',
-                },
-                hover: {
-                    border: '#2B7CE9',
-                    background: '#D2E5FF',
-                },
-            },
-            font: {
-                size: 14, // Size of the label text
-                face: 'Tahoma', // Font face
-                align: 'center',
-                color: '#FFFFFF', // Label color
-            },
-            borderWidth: 2,
-        },
-        {
-            id: 3,
-            label: 'CEO',
-            shape: 'circularImage', // Can be 'dot', 'circle', 'box', 'ellipse', 'circularImage', etc.
-            image: '/images/avatar-solid.png', // Path to an image for the node
-            size: 30, // Size of the node
-            color: {
-                border: '#2B7CE9',
-                background: '#97C2FC',
-                highlight: {
-                    border: '#2B7CE9',
-                    background: '#D2E5FF',
-                },
-                hover: {
-                    border: '#2B7CE9',
-                    background: '#D2E5FF',
-                },
-            },
-            font: {
-                size: 14, // Size of the label text
-                face: 'Tahoma', // Font face
-                align: 'center',
-                color: '#FFFFFF', // Label color
-            },
-            borderWidth: 2,
-        },
-        {
-            id: 4,
-            label: 'CEO',
-            shape: 'circularImage', // Can be 'dot', 'circle', 'box', 'ellipse', 'circularImage', etc.
-            image: '/images/CV_PicLQuality.jpg', // Path to an image for the node
-            size: 30, // Size of the node
-            color: {
-                border: '#2B7CE9',
-                background: '#97C2FC',
-                highlight: {
-                    border: '#2B7CE9',
-                    background: '#D2E5FF',
-                },
-                hover: {
-                    border: '#2B7CE9',
-                    background: '#D2E5FF',
-                },
-            },
-            font: {
-                size: 14, // Size of the label text
-                face: 'Tahoma', // Font face
-                align: 'center',
-                color: '#FFFFFF', // Label color
-            },
-            borderWidth: 2,
-        },
-        {
-            id: 5,
-            label: 'CEO',
-            shape: 'circularImage', // Can be 'dot', 'circle', 'box', 'ellipse', 'circularImage', etc.
-            image: '/images/CV_PicLQuality.jpg', // Path to an image for the node
-            size: 30, // Size of the node
-            color: {
-                border: '#2B7CE9',
-                background: '#97C2FC',
-                highlight: {
-                    border: '#2B7CE9',
-                    background: '#D2E5FF',
-                },
-                hover: {
-                    border: '#2B7CE9',
-                    background: '#D2E5FF',
-                },
-            },
-            font: {
-                size: 14, // Size of the label text
-                face: 'Tahoma', // Font face
-                align: 'center',
-                color: '#FFFFFF', // Label color
-            },
-            borderWidth: 2,
-        }
-    ]);
-
-    console.log("nodes: ", nodes.get())
-
-    // Where connections are defined
-
-    const edges = new DataSet([
-        { from: 1, to: 2 },
-        { from: 1, to: 3 },
-        { from: 2, to: 4 },
-        { from: 2, to: 5 },
-    ]);
-
-    console.log("EDGES: ", edges.get())
 
     const container = document.getElementById('network');
     const data = { nodes: employeeNodes, edges: employeeEdges };
@@ -269,6 +125,7 @@ onMounted(() => {
     } catch (error) {
         console.error("Error initializing network:", error);
     }
+    console.log(user_id.value);
 });
 </script>
 

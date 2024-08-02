@@ -1,7 +1,7 @@
 <template>
         <div class="footer text-center fixed bottom-0">
             <p>
-                <strong>EPIUSE Manager</strong> by <a href="https://www.epiuse.com">EPI-USE</a>.
+                <strong>ManagerOrg</strong>
             </p>
         </div>
 </template>

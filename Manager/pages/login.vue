@@ -1,48 +1,92 @@
 <script setup>
+import Button from 'primevue/button';
+import Toast from 'primevue/toast';
+import { useToast } from 'primevue/usetoast';
+import Spinner from '~/components/Spinner.vue';
+
 definePageMeta({
     title: 'Home',
     description: 'Home page description',
     // image: 'https://example.com/image.jpg',
     // url: 'https://example.com',
-    keywords: 'sign up, create, an, account, epiuse, manager',
+    keywords: 'sign up, create, an, account, manager',
     layout: 'userauth',
 })
 
 useSeoMeta({
-  title: 'Log in',
-  description: 'EPIUSE manager account creation page',
+    title: 'Log in',
+    description: 'Manager account creation page',
 })
 
-const supabase = useSupabaseClient()
+const csrfToken = useCookie('token');
+const user_id = useCookie('user_id');
+const error = ref(null);
+const toast = useToast();
+const loading = ref(false);
+const router = useRouter();
 
 const userData = ref({
     email: '',
     password: '',
 })
 
-const loading = ref(false)
-const email = ref('')
-
 const login = async () => {
+    loading.value = true;
     try {
-        loading.value = true
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email: userData.email,
-            password: userData.password,
-        })
-        if (error) throw error
-        alert('Logged in successfully!')
-    } catch (error) {
-        alert(error.error_description || error.message)
-    } finally {
-        loading.value = false
+
+        const data = await $fetch('http://localhost:8000/api/auth/signin/', {
+            method: 'POST',
+            body: JSON.stringify({
+                email: userData.value.email,
+                password: userData.value.password
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken.value || '', // csrfToken.value
+            },
+            credentials: 'include', // Ensure cookies are included in the request
+        });
+        console.log(data)
+        user_id.value = data.user_id;
+        loading.value = false;
+        router.push('/home');
+    } catch (e) {
+        console.error('Failed to login', e);
+        error.value = 'Invalid Credentials - Please check your email and password';
+        show(error.value);
     }
+    loading.value = false;
 }
+
+const getCsrfToken = async () => {
+    try {
+        const { data } = await $fetch('http://localhost:8000/api/token/', {
+            method: 'GET',
+            credentials: 'include', // Ensure cookies are included in the request
+        });
+        csrfToken.value = data.value.csrfToken;
+    } catch (err) {
+        console.error('Failed to fetch CSRF token', err);
+    }
+};
+
+const show = (message) => {
+    message = message || 'An error occurred';
+    toast.add({ severity: 'warn', summary: 'Error', detail: message, life: 3000 });
+};
+
+onMounted(() => {
+    if (csrfToken.value === '') {
+        getCsrfToken();
+    }
+    console.log('token ', csrfToken.value)
+})
 
 </script>
 
 <template>
     <div class="userAuth p-10">
+        <Toast />
         <div class="w-3/5 mx-auto border border-slate-600 rounded-md p-10">
             <div class="pb-6">
                 <h1 class="text-3xl font-semibold text-left">
@@ -64,21 +108,18 @@ const login = async () => {
                     </div>
                     <div class="flex items-center justify-between">
                         <a href="/signup" class="underline">Sign up instead</a>
-                        <button class="font-bold py-2 px-4 rounded-full w-1/2 focus:outline-none focus:shadow-outline"
-                            style="background-color: var(--accent);" type="button"
-                            @click="login"
-                            >
+                        <Button rounded  class="font-bold py-2 px-4 w-1/2" type="button" @click="login">
                             Log In
-                        </button>
+                        </Button>
                     </div>
                 </form>
                 <div class="w-1/2 flex flex-col justify-start items-center gap-10">
-                    <img class="w-full h-fit"
-                        src="https://8124098.fs1.hubspotusercontent-na1.net/hub/8124098/hubfs/EU%20Theme/EPI-USE-logo.png?width=1707&height=442&name=EPI-USE-logo.png"
-                        alt="epiuselogo" />
                     <h1 class="text-3xl font-semibold text-center">
-                        Welcome to EPIUSE Manager
+                        Welcome to ManagerOrg
                     </h1>
+                    <div v-if="loading" class="w-full flex justify-center items-center">
+                        <Spinner />
+                    </div>
                 </div>
             </div>
         </div>

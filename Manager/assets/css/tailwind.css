@@ -1,9 +1,16 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@layer tailwind-base, primevue, tailwind-utilities;
 
-.dark {
-    @apply bg-neutral-800 text-white;
+@layer tailwind-base {
+    @tailwind base;
+}
+
+@layer tailwind-utilities {
+    @tailwind components;
+    @tailwind utilities;
+}
+
+/* .dark-mode {
+    @apply bg-neutral-900 text-white;
     --primary-text: #fff;
     --secondary-text: #ddd;
     --accent: #00ff95;
@@ -12,9 +19,9 @@
     --secondary-bg: #124559;
     --border-color: #555;
     --hover: #124559bb;
-}
+} */
 
-.light {
+/* .light-mode {
     @apply bg-gray-100 text-black;
     --accent: #35CE8D;
-}
+} */
