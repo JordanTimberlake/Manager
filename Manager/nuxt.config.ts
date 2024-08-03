@@ -63,4 +63,7 @@ export default defineNuxtConfig({
   css: [
     // 'primevue/resources/themes/aura/theme.css',
   ],
+  // router: {
+  //   middleware: ['auth.global'],
+  // },
 })

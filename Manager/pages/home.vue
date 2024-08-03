@@ -1,15 +1,38 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { DataSet, Network } from 'vis-network/standalone';
+import Spinner from '~/components/Spinner.vue';
 // APEXCHARTSjs
 
 definePageMeta({
     title: 'Home',
     description: 'Home page description',
-    middleware: ['auth'],
+    middleware: 'auth',
 });
 
 const user_id = useCookie('user_id');
+const csrfToken = useCookie('token');
+
+const loading = ref(false);
+
+const employeeFetch = async () => {
+    loading.value = true;
+    try {
+        const data = await $fetch('http://localhost:8000/api/employees/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken.value || '', // csrfToken.value
+            },
+            credentials: 'include', // Ensure cookies are included in the request
+        });
+        console.log(data);
+    } catch (e) {
+        console.error('Failed to fetch employees', e);
+    }
+    loading.value = false;
+}
+
 
 let employees = [
     {
@@ -67,7 +90,18 @@ const nodeBGpicker = (employeeRole: any) => {
     }
 }
 
-onMounted(() => {
+const checkLogin = () => {
+    if (user_id.value === '') {
+        router.push('/login');
+    }
+}
+
+onMounted(async () => {
+    // await checkLogin();
+
+
+    employeeFetch();
+
     const employeeNodes = new DataSet(
         employees.map((employee) => ({
             id: employee.id,
@@ -138,12 +172,17 @@ const reroute = () => {
 
 <template>
     <div class="h-screen">
-        <h1>Employee Hierarchy</h1>
-        <div id="network"></div>
-
-        <Button @click="reroute">
-            Testing
-        </Button>
+        <div class="text-center p-3">
+            <h1 class="font-bold text-3xl">Employee Hierarchy</h1>
+        </div>
+        <div v-if="loading">
+            <div class="flex justify-center items-center h-full">
+                <Spinner />
+            </div>
+        </div>
+        <div v-else>
+            <div id="network"></div>
+        </div>
     </div>
 </template>
 
