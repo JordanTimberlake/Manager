@@ -4,9 +4,9 @@ import { DataSet, Network } from 'vis-network/standalone';
 // APEXCHARTSjs
 
 definePageMeta({
-    // middleware: 'auth',
     title: 'Home',
     description: 'Home page description',
+    middleware: ['auth'],
 });
 
 const user_id = useCookie('user_id');
@@ -127,12 +127,23 @@ onMounted(() => {
     }
     console.log(user_id.value);
 });
+
+const router = useRouter()
+
+const reroute = () => {
+    router.push('/employees')
+}
+
 </script>
 
 <template>
     <div class="h-screen">
         <h1>Employee Hierarchy</h1>
         <div id="network"></div>
+
+        <Button @click="reroute">
+            Testing
+        </Button>
     </div>
 </template>
 

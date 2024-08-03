@@ -59,7 +59,7 @@ const handleCreateAccount = async () => {
         // console.log(response.value)
         user_id.value = data.user_id;
         loading.value = false;
-        router.push('/home')
+        router.push('/home');
     } catch (err) {
         'An error occurred';
         console.error('Failed to login', e);
