@@ -140,15 +140,12 @@ def update_employee(request, id):
         user = User.objects.get(id=u_id)
 
         employee.e_id = id
-        if employee.is_Manager:
-            manager = Manager.objects.get(e_id=u_id)
-            manager.e_id = id
 
         if employee:
             if u_first_name is not None:
-                User.first_name = u_first_name
+                user.first_name = u_first_name
             if u_last_name is not None:
-                User.last_name = u_first_name
+                user.last_name = u_first_name
             if e_birth_date is not None:
                 employee.birth_date = e_birth_date
             if e_salary is not None:
@@ -166,6 +163,11 @@ def update_employee(request, id):
                         new_Manager = Manager(e_id=employee.e_id)
                         new_Manager.clean()
                         new_Manager.save()
+                    else:
+                        manager = Manager.objects.get(e_id=id)
+                        manager.e_id = id
+                        manager.clean()
+                        manager.save()
                 else:
                     employee.is_Manager = e_is_manager
                     if Manager.objects.filter(e_id=employee.e_id).exists():
