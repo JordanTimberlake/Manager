@@ -88,9 +88,14 @@ WSGI_APPLICATION = 'api.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')
-    )
+    'default': {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "postgres",
+        "USER": os.getenv('SUPABASE_USER'),
+        "PASSWORD": os.getenv('SUPABASE_PWORD'),
+        "HOST": os.getenv('SUPABASE_HOST', 'localhost'),
+        "PORT": os.getenv('SUPABASE_HOST_PORT','5432'),
+    }
 }
 
 

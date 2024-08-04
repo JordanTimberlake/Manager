@@ -5,18 +5,15 @@ FROM python:3.10-slim
 WORKDIR /app
 
 # Copy the requirements file into the container at /app
-COPY ./Backend/api/requirements.txt ./
+COPY ./requirements.txt ./
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application into the container
-COPY ./Backend/api /app
+COPY ./ /app
 
-# Copy the .env file into the container
-COPY ./.env /app/.env
-
-# Install Gunicorn for production
+# Install Gunicorn
 RUN pip install gunicorn
 
 # Expose port 8000
