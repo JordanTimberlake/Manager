@@ -34,6 +34,12 @@ class ManagerView(generics.ListAPIView):
     serializer_class = Manager_Serializer
     http_method_names = ['get']
 
+@csrf_exempt
+@require_http_methods(['GET'])
+def getManagers(request):
+    managers = Manager.objects.all()
+    return JsonResponse({'status': 'success', 'message': 'Employees found', 'data': Manager_Serializer(managers, many=True).data}, status=200)
+
 @method_decorator(csrf_exempt, name='dispatch') # This is to allow POST requests without CSRF token for Dev
 class Auth_User(View):
     @csrf_exempt
@@ -115,20 +121,31 @@ def get_employees(request):
 
 @csrf_exempt # This is to allow POST requests without CSRF token for Dev
 @require_http_methods(["PUT"])
-def update_employee(request):
+def update_employee(request, id):
     try:
         data = json.loads(request.body)
-        id = data.get('u_id')
+        id = data.get('e_id')
+        u_id = data.get('u_id')
 
+        u_first_name = data.get('first_name')
+        u_last_name = data.get('last_name')
+        e_position = data.get('position')
         e_birth_date = data.get('birth_date')
         e_salary = data.get('salary')
         e_hired_date = data.get('hired_date')
-        e_position = data.get('position')
-        e_line_manager = data.get('line_manager_e_id')
+        e_line_manager = data.get('line_manager')
         e_is_manager = data.get('is_manager')
 
-        employee = Employees.objects.get(u_id=id)
+        employee = Employees.objects.get(u_id==u_id)
+        user = User.objects.get(id=u_id)
+
+        employee.e_id = id
+
         if employee:
+            if u_first_name is not None:
+                User.first_name = u_first_name
+            if u_last_name is not None:
+                User.last_name = u_first_name
             if e_birth_date is not None:
                 employee.birth_date = e_birth_date
             if e_salary is not None:
@@ -155,7 +172,9 @@ def update_employee(request):
 
             employee.updated_at = timezone.now()
 
+            user.clean()
             employee.full_clean()  # Validate before saving
+            user.save
             employee.save()
 
 

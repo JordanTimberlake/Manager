@@ -17,6 +17,7 @@ import AppFooter from '~/components/AppFooter.vue'
 <style>
 .main {
     background-image: linear-gradient(90deg, #01161E 5%, #124559 100%);
+    height: max-content;
 }
 
 .slot {
