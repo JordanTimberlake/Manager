@@ -23,6 +23,7 @@ class Employees(models.Model):
     hired_date = models.DateField(blank=True, auto_created=True, null=True)
     line_Manager = models.ForeignKey(Manager, on_delete=models.SET_NULL, null=True, blank=True, related_name='subordinates')
     is_Manager = models.BooleanField(default=False, null=True)
-    image = models.ImageField(upload_to='images/%Y/%m/%d/', blank=True, null=True, default='default.jpg')
+    # image = models.ImageField(upload_to='images/%Y/%m/%d/', blank=True, null=True, default='default.jpg')
+    gravatar_url = models.TextField(default='', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

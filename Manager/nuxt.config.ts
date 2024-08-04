@@ -11,7 +11,7 @@ export default defineNuxtConfig({
     "nuxt-icons",
     "@nuxtjs/supabase",
     '@primevue/nuxt-module',
-    "@nuxt/icon"
+    "@nuxt/icon",
   ],
   // colorMode: {
   //   preference: 'system', // default value of $colorMode.preference

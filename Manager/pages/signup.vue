@@ -24,7 +24,6 @@ useSeoMeta({
 
 const csrfToken = useCookie('token');
 const user_id = useCookie('user_id');
-const error = ref(null);
 const loading = ref(false);
 const userData = ref({
     first_name: '',
@@ -41,7 +40,7 @@ const handleCreateAccount = async () => {
     }
 
     try {
-        const { data } = await $fetch('http://localhost:8000/api/auth/signup/', {
+        const data = await $fetch('http://localhost:8000/api/auth/signup/', {
             method: 'POST',
             body: JSON.stringify({
                 first_name: userData.value.first_name,
@@ -62,9 +61,9 @@ const handleCreateAccount = async () => {
         router.push('/home');
     } catch (err) {
         'An error occurred';
-        console.error('Failed to login', e);
-        error.value = 'Invalid Credentials - Please check your email and password';
-        show(error.value);
+        console.error('Failed to login', err);
+        err.value = 'Failed - Please make sure you have filled in all the input boxes';
+        show(err.value);
     }
     loading.value = false;
 };
@@ -83,7 +82,7 @@ const getCsrfToken = async () => {
 
 const show = (message) => {
     message = message || 'An error occurred';
-    toast.add({ severity: 'warn', summary: 'Error', detail: message, life: 3000 });
+    toast.add({ severity: 'warn', summary: 'Error', detail: message, life: 5000 });
 };
 
 onMounted(() => {

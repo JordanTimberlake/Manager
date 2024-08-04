@@ -25,11 +25,11 @@ urlpatterns = [
     path('api/auth/signup/', views.Auth_User.signUp, name='User Sign Up'),
     path('api/auth/signin/', views.Auth_User.signIn, name='User Sign In'),
     path('api/auth/signout/', views.Auth_User.signOut, name='User Sign Out'),
+    path('api/user/<int:id>/', views.Auth_User.get, name="User get"),
     path('api/employee/', views.EmployeesView.as_view(), name='Employee List'),
     path('api/employees/', views.get_employees, name='Get Employees'),
     path('api/employee/<int:id>/', views.get_employee, name='Get Employee'),
     path('api/employee/create/', views.create_employee, name='Create Employee'),
     path('api/employee/update/<int:id>/', views.update_employee, name='Update Employee'),
     path('api/employee/delete/', views.delete_employee, name='Delete Employee'),
-    path('api/employee/make_manager/', views.make_manager, name='Make Manager'),
 ]

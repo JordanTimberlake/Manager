@@ -7,14 +7,26 @@ import { ref } from "vue";
 import Avatar from 'primevue/avatar';
 import Popover from 'primevue/popover';
 
+const router = useRouter();
 const user_id = useCookie('user_id');
 const csrfToken = useCookie('token');
 
-const user = ref({
-    name: 'Jordan',
-    surname: 'Timberlake',
-    email: 'jordtimberlake@gmail.com'
-})
+const getUser = async () => {
+    try {
+        const data = await $fetch(`http://localhost:8000/api/user/${user_id.value}/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken.value || '', // csrfToken.value
+            },
+            credentials: 'include', // Ensure cookies are included in the request
+        });
+        console.log(data)
+        user.value = data
+    } catch (e) {
+        console.log(e)
+    }
+}
 
 const op = ref(null);
 const toggle = (event) => {
@@ -33,7 +45,6 @@ const logout = async () => {
         });
         console.log(data)
         user_id.value = '';
-        user_id.value = '';
         csrfToken.value = '';
 
         router.push('/login');
@@ -44,6 +55,13 @@ const logout = async () => {
     }
     loading.value = false;
 }
+
+const user = ref(null)
+
+onMounted(async () => {
+    await getUser();
+    console.log("TEST: " ,user.value)
+})
 </script>
 
 <template>
@@ -85,9 +103,9 @@ const logout = async () => {
             <div class="divider">
             </div>
             <div class="profileContent" @click="toggle">
-                <Avatar image="/images/CV_PicLQuality.jpg" shape="circle" alt="avatar" />
-                <p class="text-center md:text-lg md:contents hidden">
-                    {{ user.name }}
+                <Avatar image="/images/media/default.png" shape="circle" alt="avatar" />
+                <p class="text-center md:text-sm md:contents hidden trancate text-wrap">
+                    {{ user?.username }}
                 </p>
             </div>
         </div>
@@ -97,24 +115,6 @@ const logout = async () => {
             <div class="text-slate-400 pb-4">
                 <p style="font-size: 12px;">signed in as {{ user.email }}</p>
             </div>
-            <Button text class="popoverRoute" as="router-link" label="Router" to="/profile">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24">
-                    <path fill="currentColor"
-                        d="M12 4a4 4 0 0 1 4 4a4 4 0 0 1-4 4a4 4 0 0 1-4-4a4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4" />
-                </svg>
-                <p>
-                    Profile
-                </p>
-            </Button>
-            <Button text class="popoverRoute" as="router-link" label="Router" to="/settings">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24">
-                    <path fill="currentColor"
-                        d="M12 15.5A3.5 3.5 0 0 1 8.5 12A3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5a3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97s-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.31-.61-.22l-2.49 1c-.52-.39-1.06-.73-1.69-.98l-.37-2.65A.506.506 0 0 0 14 2h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.63.25-1.17.59-1.69.98l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1s.03.65.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.01c.52.4 1.06.74 1.69.99l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.63-.26 1.17-.59 1.69-.99l2.49 1.01c.22.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64z" />
-                </svg>
-                <p>
-                    Settings
-                </p>
-            </Button>
             <Button text class="popoverRoute" @click="logout" >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24">
                     <path fill="currentColor"

@@ -12,7 +12,7 @@ class Employees_Serializer(serializers.ModelSerializer):
 
     class Meta:
         model = Employees
-        fields = ('id', 'user', 'position', 'line_Manager', 'salary', 'e_id', 'is_Manager', 'image')
+        fields = ('id', 'user', 'position', 'line_Manager', 'salary', 'e_id', 'is_Manager', 'gravatar_url', 'birth_date')
 
 class Manager_Serializer(serializers.ModelSerializer):
     class Meta:

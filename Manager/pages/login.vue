@@ -60,11 +60,12 @@ const login = async () => {
 
 const getCsrfToken = async () => {
     try {
-        const { data } = await $fetch('http://localhost:8000/api/token/', {
+        const data = await $fetch('http://localhost:8000/api/token/', {
             method: 'GET',
             credentials: 'include', // Ensure cookies are included in the request
         });
-        csrfToken.value = data.value.csrfToken;
+        csrfToken.value = data.csrfToken;
+        console.log(data)
     } catch (err) {
         console.error('Failed to fetch CSRF token', err);
     }
