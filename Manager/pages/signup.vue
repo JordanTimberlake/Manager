@@ -52,7 +52,7 @@ const handleCreateAccount = async () => {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrfToken.value || '', // csrfToken.value
             },
-            credentials: 'include', // Ensure cookies are included in the request
+            withCredentials: true,
         });
         // response.value = data.value.status;
         // console.log(response.value)
@@ -72,7 +72,10 @@ const getCsrfToken = async () => {
     try {
         const data = await $fetch('https://vitreous-bert-jordantimberlake-dd542edd.koyeb.app/api/token/', {
             method: 'GET',
-            credentials: 'include', // Ensure cookies are included in the request
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            withCredentials: true, // Ensure cookies are included in the request
         });
         csrfToken.value = data.csrfToken;
     } catch (err) {
