@@ -70,9 +70,8 @@ const handleCreateAccount = async () => {
 
 const getCsrfToken = async () => {
     try {
-        const { data } = await $fetch('https://vitreous-bert-jordantimberlake-dd542edd.koyeb.app/api/token/', {
+        const data = await $fetch('https://vitreous-bert-jordantimberlake-dd542edd.koyeb.app/api/token/', {
             method: 'GET',
-            credentials: 'include', // Ensure cookies are included in the request
         });
         csrfToken.value = data.csrfToken;
     } catch (err) {

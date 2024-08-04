@@ -13,7 +13,7 @@ from django.contrib.auth.hashers import make_password
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.models import User
 from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from django.middleware.csrf import get_token
 
 def generate_sha256_hash(data: str) -> str:
@@ -32,6 +32,7 @@ def generate_sha256_hash(data: str) -> str:
 from .models import Employees, Manager
 from .serializers import Employees_Serializer, Manager_Serializer
 
+@csrf_exempt
 @ensure_csrf_cookie
 def get_csrf_token(request):
     return JsonResponse({'message': 'CSRF cookie set','csrfToken': get_token(request)})
@@ -41,6 +42,7 @@ class EmployeesView(generics.ListAPIView):
     serializer_class = Employees_Serializer
     http_method_names = ['get']
 
+@csrf_exempt
 class ManagerView(generics.ListAPIView):
     queryset = Manager.objects.all()
     serializer_class = Manager_Serializer

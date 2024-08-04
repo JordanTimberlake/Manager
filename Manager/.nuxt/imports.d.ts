@@ -45,4 +45,5 @@ export { useSupabaseSession } from '../node_modules/.pnpm/@nuxtjs+supabase@1.3.5
 export { useSupabaseUser } from '../node_modules/.pnpm/@nuxtjs+supabase@1.3.5/node_modules/@nuxtjs/supabase/dist/runtime/composables/useSupabaseUser';
 export { useColorMode } from '../node_modules/.pnpm/@nuxtjs+color-mode@3.4.2_magicast@0.3.4_rollup@4.20.0/node_modules/@nuxtjs/color-mode/dist/runtime/composables';
 export { useStyle } from 'primevue/usestyle';
+export { useNuxtDevTools } from '../node_modules/.pnpm/@nuxt+devtools@1.3.9_rollup@4.20.0_vite@5.3.5_@types+node@22.1.0_terser@5.31.3_/node_modules/@nuxt/devtools/dist/runtime/use-nuxt-devtools';
 export { definePageMeta } from '../node_modules/.pnpm/nuxt@3.12.4_@parcel+watcher@2.4.1_@types+node@22.1.0_ioredis@5.4.1_magicast@0.3.4_rollup@4.20_masrgqfxp4zfdpkzmvhr6nqoxe/node_modules/nuxt/dist/pages/runtime/composables';

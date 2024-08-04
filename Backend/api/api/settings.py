@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["https://manager-nsdv-fnbnbubj1-jordantimberlakes-projects.vercel.app",]
+ALLOWED_HOSTS = ["https://manager-nsdv-fnbnbubj1-jordantimberlakes-projects.vercel.app","https://manager-nsdv.vercel.app/"]
 
 
 # Application definition
@@ -61,6 +61,7 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_WHITELIST = (
     "https://manager-nsdv-fnbnbubj1-jordantimberlakes-projects.vercel.app",
+    "https://manager-nsdv.vercel.app/"
 )
 
 
@@ -146,6 +147,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "https://manager-nsdv-fnbnbubj1-jordantimberlakes-projects.vercel.app",  # Update this with your Nuxt frontend URL
+    'https://manager-nsdv.vercel.app/'
 ]
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_HEADERS = [

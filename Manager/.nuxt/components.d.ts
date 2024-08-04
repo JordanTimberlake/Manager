@@ -4,7 +4,6 @@ type IslandComponent<T extends DefineComponent> = T & DefineComponent<{}, {refre
 interface _GlobalComponents {
       'AppFooter': typeof import("../components/AppFooter.vue")['default']
     'AppSidebar': typeof import("../components/AppSidebar.vue")['default']
-    'EditEmployee': typeof import("../components/EditEmployee.vue")['default']
     'Spinner': typeof import("../components/Spinner.vue")['default']
     'UAccordion': typeof import("../node_modules/.pnpm/@nuxt+ui@2.18.3_jwt-decode@3.1.2_magicast@0.3.4_rollup@4.20.0_vite@5.3.5_@types+node@22.1.0_terser@5.31.3__vue@3.4.35/node_modules/@nuxt/ui/dist/runtime/components/elements/Accordion.vue")['default']
     'UAlert': typeof import("../node_modules/.pnpm/@nuxt+ui@2.18.3_jwt-decode@3.1.2_magicast@0.3.4_rollup@4.20.0_vite@5.3.5_@types+node@22.1.0_terser@5.31.3__vue@3.4.35/node_modules/@nuxt/ui/dist/runtime/components/elements/Alert.vue")['default']
@@ -85,7 +84,6 @@ interface _GlobalComponents {
     'NuxtRouteAnnouncer': IslandComponent<typeof import("../node_modules/.pnpm/nuxt@3.12.4_@parcel+watcher@2.4.1_@types+node@22.1.0_ioredis@5.4.1_magicast@0.3.4_rollup@4.20_masrgqfxp4zfdpkzmvhr6nqoxe/node_modules/nuxt/dist/app/components/server-placeholder")['default']>
       'LazyAppFooter': typeof import("../components/AppFooter.vue")['default']
     'LazyAppSidebar': typeof import("../components/AppSidebar.vue")['default']
-    'LazyEditEmployee': typeof import("../components/EditEmployee.vue")['default']
     'LazySpinner': typeof import("../components/Spinner.vue")['default']
     'LazyUAccordion': typeof import("../node_modules/.pnpm/@nuxt+ui@2.18.3_jwt-decode@3.1.2_magicast@0.3.4_rollup@4.20.0_vite@5.3.5_@types+node@22.1.0_terser@5.31.3__vue@3.4.35/node_modules/@nuxt/ui/dist/runtime/components/elements/Accordion.vue")['default']
     'LazyUAlert': typeof import("../node_modules/.pnpm/@nuxt+ui@2.18.3_jwt-decode@3.1.2_magicast@0.3.4_rollup@4.20.0_vite@5.3.5_@types+node@22.1.0_terser@5.31.3__vue@3.4.35/node_modules/@nuxt/ui/dist/runtime/components/elements/Alert.vue")['default']
@@ -180,7 +178,6 @@ declare module 'vue' {
 
 export const AppFooter: typeof import("../components/AppFooter.vue")['default']
 export const AppSidebar: typeof import("../components/AppSidebar.vue")['default']
-export const EditEmployee: typeof import("../components/EditEmployee.vue")['default']
 export const Spinner: typeof import("../components/Spinner.vue")['default']
 export const UAccordion: typeof import("../node_modules/.pnpm/@nuxt+ui@2.18.3_jwt-decode@3.1.2_magicast@0.3.4_rollup@4.20.0_vite@5.3.5_@types+node@22.1.0_terser@5.31.3__vue@3.4.35/node_modules/@nuxt/ui/dist/runtime/components/elements/Accordion.vue")['default']
 export const UAlert: typeof import("../node_modules/.pnpm/@nuxt+ui@2.18.3_jwt-decode@3.1.2_magicast@0.3.4_rollup@4.20.0_vite@5.3.5_@types+node@22.1.0_terser@5.31.3__vue@3.4.35/node_modules/@nuxt/ui/dist/runtime/components/elements/Alert.vue")['default']
@@ -261,7 +258,6 @@ export const USlideovers: IslandComponent<typeof import("../node_modules/.pnpm/n
 export const NuxtRouteAnnouncer: IslandComponent<typeof import("../node_modules/.pnpm/nuxt@3.12.4_@parcel+watcher@2.4.1_@types+node@22.1.0_ioredis@5.4.1_magicast@0.3.4_rollup@4.20_masrgqfxp4zfdpkzmvhr6nqoxe/node_modules/nuxt/dist/app/components/server-placeholder")['default']>
 export const LazyAppFooter: typeof import("../components/AppFooter.vue")['default']
 export const LazyAppSidebar: typeof import("../components/AppSidebar.vue")['default']
-export const LazyEditEmployee: typeof import("../components/EditEmployee.vue")['default']
 export const LazySpinner: typeof import("../components/Spinner.vue")['default']
 export const LazyUAccordion: typeof import("../node_modules/.pnpm/@nuxt+ui@2.18.3_jwt-decode@3.1.2_magicast@0.3.4_rollup@4.20.0_vite@5.3.5_@types+node@22.1.0_terser@5.31.3__vue@3.4.35/node_modules/@nuxt/ui/dist/runtime/components/elements/Accordion.vue")['default']
 export const LazyUAlert: typeof import("../node_modules/.pnpm/@nuxt+ui@2.18.3_jwt-decode@3.1.2_magicast@0.3.4_rollup@4.20.0_vite@5.3.5_@types+node@22.1.0_terser@5.31.3__vue@3.4.35/node_modules/@nuxt/ui/dist/runtime/components/elements/Alert.vue")['default']

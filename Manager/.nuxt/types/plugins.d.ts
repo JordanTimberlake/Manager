@@ -7,7 +7,6 @@ type IsAny<T> = 0 extends 1 & T ? true : false
 type InjectionType<A extends Plugin> = IsAny<A> extends true ? unknown : A extends Plugin<infer T> ? Decorate<T> : unknown
 
 type NuxtAppInjections = 
-  InjectionType<typeof import("../../node_modules/.pnpm/nuxt@3.12.4_@parcel+watcher@2.4.1_@types+node@22.1.0_ioredis@5.4.1_magicast@0.3.4_rollup@4.20_masrgqfxp4zfdpkzmvhr6nqoxe/node_modules/nuxt/dist/app/plugins/payload.client").default> &
   InjectionType<typeof import("../../node_modules/.pnpm/nuxt@3.12.4_@parcel+watcher@2.4.1_@types+node@22.1.0_ioredis@5.4.1_magicast@0.3.4_rollup@4.20_masrgqfxp4zfdpkzmvhr6nqoxe/node_modules/nuxt/dist/app/plugins/navigation-repaint.client").default> &
   InjectionType<typeof import("../../node_modules/.pnpm/nuxt@3.12.4_@parcel+watcher@2.4.1_@types+node@22.1.0_ioredis@5.4.1_magicast@0.3.4_rollup@4.20_masrgqfxp4zfdpkzmvhr6nqoxe/node_modules/nuxt/dist/app/plugins/check-outdated-build.client").default> &
   InjectionType<typeof import("../../node_modules/.pnpm/nuxt@3.12.4_@parcel+watcher@2.4.1_@types+node@22.1.0_ioredis@5.4.1_magicast@0.3.4_rollup@4.20_masrgqfxp4zfdpkzmvhr6nqoxe/node_modules/nuxt/dist/app/plugins/revive-payload.server").default> &
@@ -16,6 +15,9 @@ type NuxtAppInjections =
   InjectionType<typeof import("../../node_modules/.pnpm/nuxt@3.12.4_@parcel+watcher@2.4.1_@types+node@22.1.0_ioredis@5.4.1_magicast@0.3.4_rollup@4.20_masrgqfxp4zfdpkzmvhr6nqoxe/node_modules/nuxt/dist/head/runtime/plugins/unhead").default> &
   InjectionType<typeof import("../../node_modules/.pnpm/nuxt@3.12.4_@parcel+watcher@2.4.1_@types+node@22.1.0_ioredis@5.4.1_magicast@0.3.4_rollup@4.20_masrgqfxp4zfdpkzmvhr6nqoxe/node_modules/nuxt/dist/pages/runtime/plugins/router").default> &
   InjectionType<typeof import("../../node_modules/.pnpm/nuxt@3.12.4_@parcel+watcher@2.4.1_@types+node@22.1.0_ioredis@5.4.1_magicast@0.3.4_rollup@4.20_masrgqfxp4zfdpkzmvhr6nqoxe/node_modules/nuxt/dist/pages/runtime/plugins/prefetch.client").default> &
+  InjectionType<typeof import("../../node_modules/.pnpm/nuxt@3.12.4_@parcel+watcher@2.4.1_@types+node@22.1.0_ioredis@5.4.1_magicast@0.3.4_rollup@4.20_masrgqfxp4zfdpkzmvhr6nqoxe/node_modules/nuxt/dist/pages/runtime/plugins/check-if-page-unused").default> &
+  InjectionType<typeof import("../../node_modules/.pnpm/@nuxt+devtools@1.3.9_rollup@4.20.0_vite@5.3.5_@types+node@22.1.0_terser@5.31.3_/node_modules/@nuxt/devtools/dist/runtime/plugins/devtools.server").default> &
+  InjectionType<typeof import("../../node_modules/.pnpm/@nuxt+devtools@1.3.9_rollup@4.20.0_vite@5.3.5_@types+node@22.1.0_terser@5.31.3_/node_modules/@nuxt/devtools/dist/runtime/plugins/devtools.client").default> &
   InjectionType<typeof import("../../node_modules/.pnpm/@primevue+nuxt-module@4.0.4_@babel+parser@7.25.3_magicast@0.3.4_rollup@4.20.0_vue@3.4.35/node_modules/@primevue/nuxt-module/dist/runtime/plugin.client").default> &
   InjectionType<typeof import("../../node_modules/.pnpm/@nuxtjs+supabase@1.3.5/node_modules/@nuxtjs/supabase/dist/runtime/plugins/supabase.server").default> &
   InjectionType<typeof import("../../node_modules/.pnpm/@nuxtjs+supabase@1.3.5/node_modules/@nuxtjs/supabase/dist/runtime/plugins/supabase.client").default> &
@@ -24,13 +26,15 @@ type NuxtAppInjections =
   InjectionType<typeof import("../../node_modules/.pnpm/@nuxt+ui@2.18.3_jwt-decode@3.1.2_magicast@0.3.4_rollup@4.20.0_vite@5.3.5_@types+node@22.1.0_terser@5.31.3__vue@3.4.35/node_modules/@nuxt/ui/dist/runtime/plugins/colors").default> &
   InjectionType<typeof import("../../node_modules/.pnpm/@nuxt+icon@1.4.5_magicast@0.3.4_rollup@4.20.0_vite@5.3.5_@types+node@22.1.0_terser@5.31.3__vue@3.4.35/node_modules/@nuxt/icon/dist/runtime/plugin").default> &
   InjectionType<typeof import("../../node_modules/.pnpm/@nuxtjs+color-mode@3.4.2_magicast@0.3.4_rollup@4.20.0/node_modules/@nuxtjs/color-mode/dist/runtime/plugin.server").default> &
-  InjectionType<typeof import("../../node_modules/.pnpm/@nuxtjs+color-mode@3.4.2_magicast@0.3.4_rollup@4.20.0/node_modules/@nuxtjs/color-mode/dist/runtime/plugin.client").default>
+  InjectionType<typeof import("../../node_modules/.pnpm/@nuxtjs+color-mode@3.4.2_magicast@0.3.4_rollup@4.20.0/node_modules/@nuxtjs/color-mode/dist/runtime/plugin.client").default> &
+  InjectionType<typeof import("../../node_modules/.pnpm/nuxt@3.12.4_@parcel+watcher@2.4.1_@types+node@22.1.0_ioredis@5.4.1_magicast@0.3.4_rollup@4.20_masrgqfxp4zfdpkzmvhr6nqoxe/node_modules/nuxt/dist/app/plugins/dev-server-logs").default> &
+  InjectionType<typeof import("../../node_modules/.pnpm/nuxt@3.12.4_@parcel+watcher@2.4.1_@types+node@22.1.0_ioredis@5.4.1_magicast@0.3.4_rollup@4.20_masrgqfxp4zfdpkzmvhr6nqoxe/node_modules/nuxt/dist/app/plugins/check-if-layout-used").default>
 
 declare module '#app' {
   interface NuxtApp extends NuxtAppInjections { }
 
   interface NuxtAppLiterals {
-    pluginName: 'nuxt:revive-payload:client' | 'nuxt:head' | 'nuxt:router' | 'supabase' | 'supabase' | 'nuxt:payload' | 'nuxt:revive-payload:server' | 'nuxt:chunk-reload' | 'nuxt:global-components' | 'nuxt:prefetch' | '@nuxt/icon'
+    pluginName: 'nuxt:revive-payload:client' | 'nuxt:head' | 'nuxt:router' | 'supabase' | 'supabase' | 'nuxt:revive-payload:server' | 'nuxt:chunk-reload' | 'nuxt:global-components' | 'nuxt:prefetch' | 'nuxt:checkIfPageUnused' | '@nuxt/icon' | 'nuxt:checkIfLayoutUsed'
   }
 }
 
