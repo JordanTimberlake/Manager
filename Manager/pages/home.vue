@@ -36,7 +36,6 @@ const managers = ref([]);
 const toast = useToast()
 
 const employeeFetch = async () => {
-    loading.value = true;
     try {
         const data = await $fetch('http://localhost:8000/api/employees/', {
             method: 'GET',
@@ -68,7 +67,6 @@ const managersFetch = async () => {
     } catch (e) {
         console.error('Failed to fetch employees', e);
     }
-    loading.value = false;
 }
 
 const nodeBGpicker = (employeeRole) => {
@@ -87,12 +85,7 @@ const checkLogin = () => {
     }
 }
 
-onMounted(async () => {
-    // await checkLogin();
-
-    await employeeFetch();
-    await managersFetch();
-
+const createCanvas = () => {
     // Filter and format managers
     managers.value = employeeData.value
         .filter(employee => employee.is_Manager)
@@ -104,10 +97,10 @@ onMounted(async () => {
     const employeeNodes = new DataSet(
         employeeData.value.map((employee) => {
             const manager = managerData.value.find(manager => manager.id === employee.line_Manager)
-            
+
             let managerName = '';
             let manager_e_id = null;
-            if(manager){
+            if (manager) {
                 managerName = employeeData.value.find(emp => emp.e_id === manager.e_id).user.first_name + ' ' + employeeData.value.find(emp => emp.e_id === manager.e_id).user.last_name
                 manager_e_id = employeeData.value.find(emp => emp.e_id === manager.e_id).e_id
             }
@@ -177,10 +170,6 @@ onMounted(async () => {
             },
         },
         physics: true,
-        // interaction: { hover: true },
-        // manipulation: {
-        //     enabled: true
-        // }
     };
 
     var network = new Network(container, data, options);
@@ -189,10 +178,23 @@ onMounted(async () => {
         if (params.nodes.length > 0) {
             const nodeId = params.nodes[0];
             const nodeData = employeeNodes.get(nodeId);
+            checked.value = nodeData.is_manager;
+            console.log(checked.value);
             console.log(nodeData);
             showEditModal(nodeData);
         }
     });
+}
+
+onMounted(async () => {
+    // await checkLogin();
+
+    loading.value = true
+    await employeeFetch();
+    await managersFetch();
+    loading.value = false
+
+    createCanvas();
 
 
     console.log(user_id.value);
@@ -210,8 +212,20 @@ const hideEditModal = () => {
     showModal.value = false;
 };
 
+const formatDate = () => {
+    if (currentNode.value.birth_date) {
+        const date = new Date(currentNode.value.birth_date);
+        const formattedDate = date.toISOString().split('T')[0];
+
+        console.log('Formatted Date:', formattedDate);
+        currentNode.value.birth_date = formattedDate;
+    }
+};
+
+
 const updateEmployee = async () => {
     submit.value = true;
+    formatDate();
     try {
         const updatedEmployee = {
             e_id: currentNode.value.id,
@@ -221,9 +235,8 @@ const updateEmployee = async () => {
             position: currentNode.value.position,
             salary: currentNode.value.salary,
             birth_date: currentNode.value.birth_date,
-            hired_date: currentNode.value.hired_date,
             line_manager: currentNode.value.line_Manager,
-            is_manager: currentNode.value.is_Manager,
+            is_manager: checked.value,
         };
         console.log(updatedEmployee);
         await $fetch(`http://localhost:8000/api/employee/update/${currentNode.value.u_id}/`, {
@@ -236,16 +249,26 @@ const updateEmployee = async () => {
             body: JSON.stringify(updatedEmployee),
         });
         showModal.value = false;
-        await employeeFetch();  // Refresh employee data
+        employeeFetch();  // Refresh employee data
+        createCanvas();
+        try {
+            await refreshNuxtData()
+        } finally {
+            show("Updated Employee", true);
+        }
     } catch (e) {
         console.error('Failed to update employee', e);
+        show("Failed to update Employee", false)
     }
     submit.value = false;
-    show();
 };
 
-const show = () => {
-    toast.add({ severity: 'info', summary: 'Success', detail: 'Employee Updated', life: 3000 })
+const show = (e, status) => {
+    if (status) {
+        toast.add({ severity: 'info', summary: 'Success', detail: e, life: 3000 })
+    } else {
+        toast.add({ severity: 'error', summary: 'Failed', detail: e, life: 3000 })
+    }
 }
 
 </script>
@@ -256,12 +279,12 @@ const show = () => {
         <div class="text-center p-3">
             <h1 class="font-bold text-3xl">Employee Hierarchy</h1>
         </div>
-        <div v-if="loading">
+        <div v-show="loading">
             <div class="flex justify-center items-center h-full">
                 <Spinner />
             </div>
         </div>
-        <div v-else>
+        <div v-show="!loading">
             <div id="network"></div>
         </div>
         <div v-if="showModal" class="modal">
@@ -270,7 +293,8 @@ const show = () => {
                     <span class="close " @click="hideEditModal">&times;</span>
                 </div>
                 <div class="flex flex-col gap-2">
-                    <FileUpload ref="fileupload" mode="basic" name="demo[]" url="/api/upload" accept="image/*" :maxFileSize="1000000" />
+                    <FileUpload ref="fileupload" mode="basic" name="demo[]" url="/api/upload" accept="image/*"
+                        :maxFileSize="1000000" />
                     <div class="input">
                         <label for="e_id">Employee ID</label>
                         <InputNumber fluid id="e_id" label="e_id" v-model="currentNode.id" />
@@ -302,8 +326,7 @@ const show = () => {
                     </div>
                     <div class="input">
                         <label for="is_Manager">Manager</label>
-                        <ToggleButton v-model="currentNode.is_manager" :invalid="!checked" class="w-full"
-                            aria-label="Confirmation" />
+                        <ToggleButton v-model="checked" class="w-full" aria-label="Confirmation" />
                     </div>
                     <div class="input">
                         <Button type="button" label="Update Employee" @click="updateEmployee">

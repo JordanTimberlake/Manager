@@ -124,8 +124,8 @@ def get_employees(request):
 def update_employee(request, id):
     try:
         data = json.loads(request.body)
-        id = data.get('e_id')
         u_id = data.get('u_id')
+        id = data.get('e_id')
 
         u_first_name = data.get('first_name')
         u_last_name = data.get('last_name')
@@ -136,10 +136,13 @@ def update_employee(request, id):
         e_line_manager = data.get('line_manager')
         e_is_manager = data.get('is_manager')
 
-        employee = Employees.objects.get(u_id==u_id)
+        employee = Employees.objects.get(u_id=u_id)
         user = User.objects.get(id=u_id)
 
         employee.e_id = id
+        if employee.is_Manager:
+            manager = Manager.objects.get(e_id=u_id)
+            manager.e_id = id
 
         if employee:
             if u_first_name is not None:
@@ -172,9 +175,9 @@ def update_employee(request, id):
 
             employee.updated_at = timezone.now()
 
-            user.clean()
+            user.full_clean()
             employee.full_clean()  # Validate before saving
-            user.save
+            user.save()
             employee.save()
 
 
