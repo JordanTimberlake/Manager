@@ -52,7 +52,7 @@ const login = async () => {
         router.push('/home');
     } catch (e) {
         console.error('Failed to login', e);
-        error.value = 'Invalid Credentials - Please check your email and password';
+        error.value = 'Invalid Credentials';
         show(error.value);
     }
     loading.value = false;
