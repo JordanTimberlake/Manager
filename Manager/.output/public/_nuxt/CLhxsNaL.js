@@ -1,0 +1,1 @@
+import{_ as t}from"./DlAUqK2U.js";import{v as o,x as n,y as e}from"./CS3_mnPD.js";const s={},_={class:"footer text-center fixed bottom-0"},c=e("p",null,[e("strong",null,"ManagerOrg")],-1),r=[c];function a(i,d){return o(),n("div",_,r)}const m=t(s,[["render",a]]);export{m as _};
