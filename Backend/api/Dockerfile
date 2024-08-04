@@ -13,8 +13,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application into the container
 COPY ./Backend/api /app
 
-# Make port 8000 available to the world outside this container
+# Copy the .env file into the container
+COPY ./.env /app/.env
+
+# Install Gunicorn for production
+RUN pip install gunicorn
+
+# Expose port 8000
 EXPOSE 8000
 
-# Run manage.py when the container launches
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Command to run Gunicorn
+CMD ["gunicorn", "api.wsgi:application", "--bind", "0.0.0.0:8000"]

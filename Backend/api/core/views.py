@@ -12,7 +12,6 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.hashers import make_password
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.models import User
-from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.middleware.csrf import get_token
@@ -47,15 +46,13 @@ class ManagerView(generics.ListAPIView):
     serializer_class = Manager_Serializer
     http_method_names = ['get']
 
-@csrf_exempt
 @require_http_methods(['GET'])
 def getManagers(request):
     managers = Manager.objects.all()
     return JsonResponse({'status': 'success', 'message': 'Employees found', 'data': Manager_Serializer(managers, many=True).data}, status=200)
 
-@method_decorator(csrf_exempt, name='dispatch') # This is to allow POST requests without CSRF token for Dev
 class Auth_User(View):
-    @csrf_exempt
+
     @require_http_methods(["POST"])
     def signIn(request):
         data = json.loads(request.body)
@@ -70,7 +67,7 @@ class Auth_User(View):
         else:
             return JsonResponse({'status': 'error', 'message': 'Invalid credentials'}, status=401)
     
-    @csrf_exempt
+
     @require_http_methods(["POST"])
     def signUp(request):
         data = json.loads(request.body)
@@ -98,7 +95,7 @@ class Auth_User(View):
         except ValidationError as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
-    @csrf_exempt
+
     def get(request,id):
         try:
             # Fetch a single user object by ID
@@ -115,18 +112,17 @@ class Auth_User(View):
             # Return a 404 response if the user is not found
             return JsonResponse({'error': 'User not found'}, status=404)
 
-    @csrf_exempt
+
     def list(request):
         queryset = User.objects.all()
         return JsonResponse(list(queryset.values()), safe=False, status=200)
 
-    @csrf_exempt
+
     @require_http_methods(["POST"])
     def signOut(request):
         logout(request)
         return JsonResponse({'status': 'success', 'message': 'User signed out successfully'}, status=200)
-
-@csrf_exempt # This is to allow POST requests without CSRF token for Dev
+ # This is to allow POST requests without CSRF token for Dev
 @require_http_methods(["GET"])
 def get_employee(request, id):
     try:
@@ -138,13 +134,11 @@ def get_employee(request, id):
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
-@csrf_exempt
 @require_http_methods(["GET"])
 def get_employees(request):
     employees = Employees.objects.all()
     return JsonResponse({'status': 'success', 'message': 'Employees found', 'data': Employees_Serializer(employees, many=True).data}, status=200)
-
-@csrf_exempt # This is to allow POST requests without CSRF token for Dev
+ # This is to allow POST requests without CSRF token for Dev
 @require_http_methods(["PUT"])
 def update_employee(request, id):
     try:
@@ -216,8 +210,7 @@ def update_employee(request, id):
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
-
-@csrf_exempt # This is to allow POST requests without CSRF token for Dev
+ # This is to allow POST requests without CSRF token for Dev
 @require_http_methods(["DELETE"])
 def delete_employee(request):
     try:
@@ -237,7 +230,6 @@ def delete_employee(request):
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
-@csrf_exempt
 @require_http_methods(["POST"])
 def create_employee(request):
     data = json.loads(request.body)
