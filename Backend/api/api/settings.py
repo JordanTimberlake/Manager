@@ -30,8 +30,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["localhost,127.0.0.1,[::1]", "https://vitreous-bert-jordantimberlake-dd542edd.koyeb.app"]
-
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -144,14 +143,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # add this
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_ALL_ORIGINS = True
 
-CORS_ALLOWED_ORIGINS = [
-    "https://manager-nsdv-fnbnbubj1-jordantimberlakes-projects.vercel.app",  # Update this with your Nuxt frontend URL
-    'https://manager-nsdv.vercel.app/'
-]
-CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_HEADERS = [
     'content-type',
     'x-csrftoken',
@@ -166,9 +160,8 @@ CORS_ALLOW_METHODS = [
     'OPTIONS',
 ]
 
-
 CSRF_TRUSTED_ORIGINS = [
-    "https://manager-nsdv-fnbnbubj1-jordantimberlakes-projects.vercel.app",  # Update this with your Nuxt frontend URL
+    "*",  # Update this with your Nuxt frontend URL
 ]
 
 # Ensure CSRF_COOKIE settings
