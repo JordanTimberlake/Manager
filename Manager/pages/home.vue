@@ -39,7 +39,7 @@ const profilePicture = ref("/images/media/default.png");
 
 const employeeFetch = async () => {
     try {
-        const data = await $fetch('http://localhost:8000/api/employees/', {
+        const data = await $fetch('https://vitreous-bert-jordantimberlake-dd542edd.koyeb.app/api/employees/', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ const employeeFetch = async () => {
 
 const managersFetch = async () => {
     try {
-        const data = await $fetch('http://localhost:8000/api/managers/', {
+        const data = await $fetch('https://vitreous-bert-jordantimberlake-dd542edd.koyeb.app/api/managers/', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -189,7 +189,7 @@ const createCanvas = () => {
 }
 
 onMounted(async () => {
-    // await checkLogin();
+    checkLogin();
 
     loading.value = true
     await employeeFetch();
@@ -252,7 +252,7 @@ const createEmployee = async () => {
     newEmployee.value.birth_date = formatDate(newEmployee.value.birth_date);
     console.log(JSON.stringify(newEmployee))
     try {
-        await $fetch(`http://localhost:8000/api/employee/create/`, {
+        await $fetch(`https://vitreous-bert-jordantimberlake-dd542edd.koyeb.app/api/employee/create/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -304,7 +304,7 @@ const updateEmployee = async () => {
             is_manager: checked.value,
         };
         console.log(updatedEmployee);
-        await $fetch(`http://localhost:8000/api/employee/update/${currentNode.value.u_id}/`, {
+        await $fetch(`https://vitreous-bert-jordantimberlake-dd542edd.koyeb.app/api/employee/update/${currentNode.value.u_id}/`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -333,7 +333,7 @@ const deleteEmployee = async () => {
         u_id: currentNode.value.u_id,
     };
     try {
-        await $fetch(`http://localhost:8000/api/employee/delete/`, {
+        await $fetch(`https://vitreous-bert-jordantimberlake-dd542edd.koyeb.app/api/employee/delete/`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

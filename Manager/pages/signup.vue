@@ -40,7 +40,7 @@ const handleCreateAccount = async () => {
     }
 
     try {
-        const data = await $fetch('http://localhost:8000/api/auth/signup/', {
+        const data = await $fetch('https://vitreous-bert-jordantimberlake-dd542edd.koyeb.app/api/auth/signup/', {
             method: 'POST',
             body: JSON.stringify({
                 first_name: userData.value.first_name,
@@ -70,7 +70,7 @@ const handleCreateAccount = async () => {
 
 const getCsrfToken = async () => {
     try {
-        const { data } = await $fetch('http://localhost:8000/api/token/', {
+        const { data } = await $fetch('https://vitreous-bert-jordantimberlake-dd542edd.koyeb.app/api/token/', {
             method: 'GET',
             credentials: 'include', // Ensure cookies are included in the request
         });

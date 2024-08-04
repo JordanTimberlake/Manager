@@ -34,7 +34,7 @@ const login = async () => {
     loading.value = true;
     try {
 
-        const data = await $fetch('http://localhost:8000/api/auth/signin/', {
+        const data = await $fetch('https://vitreous-bert-jordantimberlake-dd542edd.koyeb.app/api/auth/signin/', {
             method: 'POST',
             body: JSON.stringify({
                 email: userData.value.email,
@@ -60,7 +60,7 @@ const login = async () => {
 
 const getCsrfToken = async () => {
     try {
-        const data = await $fetch('http://localhost:8000/api/token/', {
+        const data = await $fetch('https://vitreous-bert-jordantimberlake-dd542edd.koyeb.app/api/token/', {
             method: 'GET',
             credentials: 'include', // Ensure cookies are included in the request
         });

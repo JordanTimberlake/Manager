@@ -13,7 +13,7 @@ const csrfToken = useCookie('token');
 
 const getUser = async () => {
     try {
-        const data = await $fetch(`http://localhost:8000/api/user/${user_id.value}/`, {
+        const data = await $fetch(`https://vitreous-bert-jordantimberlake-dd542edd.koyeb.app/api/user/${user_id.value}/`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

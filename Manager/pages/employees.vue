@@ -15,7 +15,7 @@ const generateHash = (data, algorithm = 'SHA256') => {
 
 const employeeFetch = async () => {
     try {
-        const data = await $fetch('http://localhost:8000/api/employees/', {
+        const data = await $fetch('https://vitreous-bert-jordantimberlake-dd542edd.koyeb.app/api/employees/', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
