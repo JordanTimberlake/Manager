@@ -156,6 +156,8 @@ CORS_ALLOWED_ORIGINS = [
     "https://manager-nsdv.vercel.app/"
 ]
 
+CORS_ALLOW_CREDENTIALS = True
+
 CORS_ALLOW_HEADERS = [
     'content-type',
     'x-csrftoken',
@@ -171,7 +173,8 @@ CORS_ALLOW_METHODS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "*",  # Update this with your Nuxt frontend URL
+    'http://localhost:3000',
+    'https://manager-nsdv-fnbnbubj1-jordantimberlakes-projects.vercel.app',
 ]
 
 # Ensure CSRF_COOKIE settings
