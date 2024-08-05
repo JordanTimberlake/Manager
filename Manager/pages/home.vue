@@ -65,7 +65,6 @@ const managersFetch = async () => {
             withCredentials: true,
         });
         managerData.value = data.data
-        console.log(managerData.value)
     } catch (e) {
         console.error('Failed to fetch employees', e);
     }
@@ -96,10 +95,10 @@ const createCanvas = () => {
             value: manager.e_id
         }));
 
+    console.log("Managers:", managers.value);
     const employeeNodes = new DataSet(
         employeeData.value.map((employee) => {
             const manager = managerData.value.find(manager => manager.id === employee.line_Manager)
-
             let managerName = '';
             let manager_e_id = null;
             if (manager) {
@@ -190,17 +189,12 @@ const createCanvas = () => {
 
 onMounted(async () => {
     checkLogin();
-
     loading.value = true
     await employeeFetch();
     await managersFetch();
-    createCanvas();
     loading.value = false
-
-
-
+    createCanvas();
     console.log(user_id.value);
-
 });
 
 const router = useRouter()

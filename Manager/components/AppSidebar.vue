@@ -41,7 +41,7 @@ const logout = async () => {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrfToken.value || '', // csrfToken.value
             },
-            credentials: 'include', // Ensure cookies are included in the request
+            withCredentials: true, // Ensure cookies are included in the request
         });
         console.log(data)
         user_id.value = '';
