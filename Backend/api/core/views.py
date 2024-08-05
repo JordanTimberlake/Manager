@@ -224,9 +224,10 @@ def delete_employee(request):
         data = json.loads(request.body)
         id = data.get('u_id')
 
-
         user = User.objects.get(id=u_id)
         employee = Employees.objects.get(u_id=id)
+        if Manager.objects.get(e_id=id).exists():
+            Manager.objects.get(e_id=id).delete()
         if employee:
             employee.delete()
         if user:
