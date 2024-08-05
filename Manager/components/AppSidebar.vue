@@ -94,7 +94,7 @@ onMounted(async () => {
             </div>
             <div class="profileContent" @click="toggle">
                 <Avatar image="/images/media/default.png" shape="circle" alt="avatar" />
-                <p class="text-center md:text-sm md:contents hidden w-full">
+                <p class="text-center md:text-sm md:contents hidden">
                     {{ user?.username }}
                 </p>
             </div>
@@ -150,7 +150,7 @@ onMounted(async () => {
 }
 
 .divider {
-    width: 100%;
+    width: 200px;
     border-bottom: 1px solid #124559bb;
     margin-bottom: 10px;
 }
@@ -188,7 +188,6 @@ onMounted(async () => {
     position: fixed;
     bottom: 0;
     left: 0;
-    width: 180px;
     padding: 10px;
 }
 
@@ -196,7 +195,7 @@ onMounted(async () => {
     display: flex;
     justify-content: start;
     align-items: center;
-    width: 100%;
+    width: 90%;
     gap: 10px;
     padding: 10px;
 }

@@ -6,7 +6,8 @@ useHead({
   ],
   importScripts: [
     { src: 'https://secure.gravatar.com/js/gprofiles.js' },
-    { src: 'https://unpkg.com/@gravatar-com/quick-editor@x.x.x'}
+    { src: 'https://unpkg.com/@gravatar-com/quick-editor@x.x.x'},
+    { src: 'https://secure.gravatar.com/js/gprofiles.js'}
   ]
 })
 </script>

@@ -32,6 +32,8 @@ declare module 'nuxt/schema' {
    },
   }
   interface PublicRuntimeConfig {
+   GRAVATAR_API_KEY: string,
+
    supabase: {
       url: string,
 

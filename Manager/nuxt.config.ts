@@ -49,4 +49,9 @@ export default defineNuxtConfig({
       include: ['Toast', 'Button'],
     }
   },
+  runtimeConfig: {
+    public: {
+      GRAVATAR_API_KEY: '738:gk-rX0aIgiDWytEyKkxlTDXampaZlLCa9rdy-B_PzTSm13FWyDwik92bemGR23_0',
+    }
+  }
 })

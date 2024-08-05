@@ -89,7 +89,8 @@ class Auth_User(View):
             new_user.save()
 
             # first add the new user then add the employee
-            new_employee = Employees(u_id=new_user, created_at=timezone.now(), updated_at=timezone.now(), e_id=new_user.id)
+            grav_url = 'https://gravatar.com/avatar/' + generate_sha256_hash(email)
+            new_employee = Employees(u_id=new_user, created_at=timezone.now(), updated_at=timezone.now(), e_id=new_user.id, gravatar_url=grav_url)
             new_employee.clean()
             new_employee.save()
 
@@ -198,8 +199,6 @@ def update_employee(request, id):
                     if Manager.objects.filter(e_id=employee.e_id).exists():
                         Manager.objects.get(e_id=employee.e_id).delete()
 
-
-
             employee.updated_at = timezone.now()
 
             user.full_clean()
@@ -224,10 +223,11 @@ def delete_employee(request):
         data = json.loads(request.body)
         id = data.get('u_id')
 
-        user = User.objects.get(id=u_id)
+        user = User.objects.get(id=id)
         employee = Employees.objects.get(u_id=id)
-        if Manager.objects.get(e_id=id).exists():
-            Manager.objects.get(e_id=id).delete()
+        e_id = employee.e_id
+        if Manager.objects.get(e_id=e_id).exists():
+            Manager.objects.get(e_id=e_id).delete()
         if employee:
             employee.delete()
         if user:

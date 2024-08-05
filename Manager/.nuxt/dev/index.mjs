@@ -324,6 +324,7 @@ const _inlineRuntimeConfig = {
     }
   },
   "public": {
+    "GRAVATAR_API_KEY": "738:gk-rX0aIgiDWytEyKkxlTDXampaZlLCa9rdy-B_PzTSm13FWyDwik92bemGR23_0",
     "supabase": {
       "url": "https://xjfbiachcmflvzvbpuat.supabase.co",
       "key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqZmJpYWNoY21mbHZ6dmJwdWF0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjIwNjc4MTcsImV4cCI6MjAzNzY0MzgxN30.LS2GFOFh-bmi9Siz2e_5Uo6W__L7kKPkSIwb4wKuYaQ",

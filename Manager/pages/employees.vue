@@ -6,6 +6,7 @@ import CryptoJS from 'crypto-js';
 import { useToast } from "primevue/usetoast";
 import Toast from 'primevue/toast';
 
+const config = useRuntimeConfig()
 const toast = useToast();
 
 const user_id = useCookie('user_id');
@@ -15,8 +16,9 @@ const CookieEmail = useCookie('email');
 
 const employeeData = ref(null);
 
-const generateHash = (data, algorithm = 'SHA256') => {
-    return 'https://gravatar.com/avatar/' + CryptoJS[algorithm](data).toString(CryptoJS.enc.Hex);
+const generateHash = (email) => {
+    console.log(email, " ", CryptoJS.SHA256(email));
+    return 'https://gravatar.com/avatar/' + CryptoJS.SHA256(email);
 }
 
 const employeeFetch = async () => {
@@ -30,7 +32,7 @@ const employeeFetch = async () => {
             credentials: 'include', // Ensure cookies are included in the request
         });
         employeeData.value = data.data
-        console.log(employeeData.value)
+        console.log(data.data)
     } catch (e) {
         console.error('Failed to fetch employees', e);
     }
@@ -44,7 +46,7 @@ onMounted(async () => {
 
 const initializeGravatarEditor = () => {
     new GravatarQuickEditor({
-        email: email.value,
+        email: CookieEmail.value,
         editorTriggerSelector: '#edit-profile',
         avatarSelector: '#gravatar-avatar',
         scope: ['avatars'],
@@ -85,19 +87,30 @@ const refresh = () => {
                 </template>
                 <Column header="Image">
                     <template #body="slotProps">
-                        <a href="">
-                            <img :src=generateHash(email) alt="gravatarImage" class="w-24 rounded" />
-                        </a>
+                        <img :src=generateHash(slotProps.data.user.email) alt="gravatarImage" class="w-24 rounded" />
                     </template>
                 </Column>
                 <Column field="user.first_name" header="First Name"></Column>
                 <Column field="user.last_name" header="Last Name"></Column>
+                <Column field="user.email" header="Email"></Column>
                 <Column field="position" header="Position"></Column>
-                <Column field="salary" header="Salary"></Column>
+                <Column header="Salary">
+                    <template #body="slotProps">
+                        <p alt="gravatarImage">
+                            R {{ slotProps.data.salary }}
+                        </p>
+                    </template>
+                </Column>
                 <Column field="birth_date" header="Birth Date"></Column>
             </DataTable>
         </div>
     </div>
 </template>
 
-<style></style>
+<style>
+.p-datatable { 
+    background-color: #01161E !important;
+    border: none;
+
+}
+</style>

@@ -47,8 +47,8 @@ const employeeFetch = async () => {
             },
             withCredentials: true, // Ensure cookies are included in the request
         });
-        employeeData.value = data.data
-        console.log(employeeData.value)
+        employeeData.value = data.data;
+        console.log(employeeData.value);
     } catch (e) {
         console.error('Failed to fetch employees', e);
     }
@@ -112,6 +112,7 @@ const createCanvas = () => {
                 first_name: employee.user.first_name,
                 last_name: employee.user.last_name,
                 position: employee.position,
+                birth_date: employee.birth_date,
                 salary: employee.salary,
                 line_manager: manager_e_id,
                 line_manager_Name: managerName,
@@ -180,7 +181,6 @@ const createCanvas = () => {
             const nodeId = params.nodes[0];
             const nodeData = employeeNodes.get(nodeId);
             checked.value = nodeData.is_manager;
-            console.log(checked.value);
             console.log(nodeData);
             showEditModal(nodeData);
         }
@@ -222,7 +222,7 @@ const formatDate = (birth_date) => {
         const formattedDate = date.toISOString().split('T')[0];
 
         console.log('Formatted Date:', formattedDate);
-        birth_date = formattedDate;
+        return formattedDate;
     }
 };
 
@@ -239,7 +239,6 @@ const newEmployee = ref({
     line_manager: null,
     gravatar_url: profilePicture.value,
 })
-
 
 const createEmployee = async () => {
     submit.value = true;
@@ -281,10 +280,11 @@ const createEmployee = async () => {
     submit.value = false;
 };
 
-
 const updateEmployee = async () => {
     submit.value = true;
+    console.log(currentNode.value);
     currentNode.value.birth_date = formatDate(currentNode.value.birth_date);
+    console.log(currentNode.value);
     try {
         const updatedEmployee = {
             e_id: currentNode.value.id,
@@ -323,9 +323,7 @@ const updateEmployee = async () => {
 
 const deleteEmployee = async () => {
     deleteE.value = true;
-    const updatedEmployee = {
-        u_id: currentNode.value.u_id,
-    };
+    console.log(currentNode.value.u_id);
     try {
         await $fetch(`https://vitreous-bert-jordantimberlake-dd542edd.koyeb.app/api/employee/delete/`, {
             method: 'DELETE',
@@ -334,11 +332,10 @@ const deleteEmployee = async () => {
                 'X-CSRFToken': csrfToken.value || '',
             },
             withCredentials: true,
-            body: JSON.stringify(updatedEmployee),
+            body: {
+                u_id: currentNode.value.u_id,
+            },
         });
-        showModal.value = false;
-        employeeFetch();  // Refresh employee data
-        createCanvas();
         setInterval(() => {
             show("Deleted Employee", true);
         }, 3000)
@@ -347,6 +344,7 @@ const deleteEmployee = async () => {
         console.error('Failed to update employee', e);
         show("Failed to update Employee", false)
     }
+    showModal.value = false;
     deleteE.value = false;
 }
 
@@ -423,13 +421,13 @@ const show = (e, status) => {
                             <ToggleButton v-model="newEmployee.is_manager" class="w-full" aria-label="Confirmation" />
                         </div>
                     </div>
-                    <div class="input">
-                        <Button class="w-28" type="button" label="Create Employee" @click="createEmployee">
-                            <div v-if="submit">
-                                <Spinner />
-                            </div>
-                        </Button>
-                    </div>
+                </div>
+                <div class="w-full pt-6">
+                    <Button class="w-full" type="button" label="Create Employee" @click="createEmployee">
+                        <div v-if="submit">
+                            <Spinner />
+                        </div>
+                    </Button>
                 </div>
             </div>
         </div>
@@ -446,38 +444,44 @@ const show = (e, status) => {
                 <div class="flex flex-row justify-between items-center py-1 ">
                     <span class="close " @click="hideEditModal">&times;</span>
                 </div>
-                <div class="flex flex-col gap-2">
-                    <FileUpload ref="fileupload" mode="basic" name="demo[]" url="/api/upload" accept="image/*"
-                        :maxFileSize="1000000" />
-                    <div class="input">
-                        <label for="e_id">Employee ID</label>
-                        <InputNumber :useGrouping="false" fluid id="e_id" label="e_id" v-model="currentNode.id" />
+                <!-- <FileUpload class="w-full mb-2" ref="fileupload" mode="basic" name="demo[]" url="/api/upload" accept="image/*"
+                    :maxFileSize="1000000" /> -->
+                <div class="flex flex-row gap-2">
+                    <div class="flex flex-col">
+                        <div class="input">
+                            <label for="e_id">Employee ID</label>
+                            <InputNumber :useGrouping="false" fluid id="e_id" label="e_id" v-model="currentNode.id" />
+                        </div>
+                        <div class="input">
+                            <label for="first_name">First Name</label>
+                            <InputText id="first_name" label="First Name" v-model="currentNode.first_name" />
+                        </div>
+                        <div class="input">
+                            <label for="last_name">Last Name</label>
+                            <InputText id="last_name" label="Last Name" v-model="currentNode.last_name" />
+                        </div>
+                        <div class="input">
+                            <label for="position">Position</label>
+                            <InputText id="position" label="Position" v-model="currentNode.position" />
+                        </div>
                     </div>
-                    <div class="input">
-                        <label for="first_name">First Name</label>
-                        <InputText id="first_name" label="First Name" v-model="currentNode.first_name" />
+                    <div class="flex flex-col">
+                        <div class="input">
+                            <label for="salary">Salary</label>
+                            <InputNumber prefix="R" fluid id="salary" label="Salary" v-model="currentNode.salary" />
+                        </div>
+                        <div class="input">
+                            <label for="birth_date">Birth Date</label>
+                            <DatePicker v-model="currentNode.birth_date" id="birth_date" dateFormat="yy/mm/dd" />
+                        </div>
+                        <div class="input">
+                            <label for="line_Manager">Line Manager</label>
+                            <Select showClear v-model="currentNode.line_Manager" :options="managers" optionLabel="label"
+                                optionValue="value" :placeholder="currentNode.line_manager_Name" />
+                        </div>
                     </div>
-                    <div class="input">
-                        <label for="last_name">Last Name</label>
-                        <InputText id="last_name" label="Last Name" v-model="currentNode.last_name" />
-                    </div>
-                    <div class="input">
-                        <label for="position">Position</label>
-                        <InputText id="position" label="Position" v-model="currentNode.position" />
-                    </div>
-                    <div class="input">
-                        <label for="salary">Salary</label>
-                        <InputNumber prefix="R" fluid id="salary" label="Salary" v-model="currentNode.salary" />
-                    </div>
-                    <div class="input">
-                        <label for="birth_date">Birth Date</label>
-                        <DatePicker v-model="currentNode.birth_date" id="birth_date" dateFormat="yy/mm/dd" />
-                    </div>
-                    <div class="input">
-                        <label for="line_Manager">Line Manager</label>
-                        <Select showClear v-model="currentNode.line_Manager" :options="managers" optionLabel="label"
-                            optionValue="value" :placeholder="currentNode.line_manager_Name" />
-                    </div>
+                </div>
+                <div class="flex flex-row justify-between items-end">
                     <div class="input">
                         <label for="is_Manager">Manager</label>
                         <ToggleButton v-model="checked" class="w-full" aria-label="Confirmation" />
