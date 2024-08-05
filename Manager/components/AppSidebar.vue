@@ -1,8 +1,8 @@
 <script setup>
 // const user = useSupabaseUser()
 // const session = useSupabaseSession()
-import Button from 'primevue/button';
 import { ref } from "vue";
+import Button from 'primevue/button';
 
 import Avatar from 'primevue/avatar';
 import Popover from 'primevue/popover';
@@ -10,6 +10,7 @@ import Popover from 'primevue/popover';
 const router = useRouter();
 const user_id = useCookie('user_id');
 const csrfToken = useCookie('token');
+const email = useCookie('email');
 
 const getUser = async () => {
     try {
@@ -35,7 +36,7 @@ const toggle = (event) => {
 
 const logout = async () => {
     try {
-        const data = await $fetch('http://localhost:8000/api/auth/signout/', {
+        const data = await $fetch('https://vitreous-bert-jordantimberlake-dd542edd.koyeb.app/api/auth/signout/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -43,7 +44,7 @@ const logout = async () => {
             },
             withCredentials: true, // Ensure cookies are included in the request
         });
-        console.log(data)
+        email.value = '';
         user_id.value = '';
         csrfToken.value = '';
 
@@ -60,6 +61,7 @@ const user = ref(null)
 
 onMounted(async () => {
     await getUser();
+    email.value = user.value.email;
 })
 </script>
 
@@ -92,7 +94,7 @@ onMounted(async () => {
             </div>
             <div class="profileContent" @click="toggle">
                 <Avatar image="/images/media/default.png" shape="circle" alt="avatar" />
-                <p class="text-center md:text-sm md:contents hidden trancate text-wrap">
+                <p class="text-center md:text-sm md:contents hidden w-full">
                     {{ user?.username }}
                 </p>
             </div>
@@ -194,6 +196,7 @@ onMounted(async () => {
     display: flex;
     justify-content: start;
     align-items: center;
+    width: 100%;
     gap: 10px;
     padding: 10px;
 }
@@ -208,7 +211,7 @@ onMounted(async () => {
     position: fixed;
     left: 0;
     top: 0;
-    width: 180px;
+    width: 230px;
     height: 100%;
     background-color: #01161E;
     color: white;
