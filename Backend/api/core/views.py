@@ -222,19 +222,33 @@ def delete_employee(request):
     try:
         data = json.loads(request.body)
         id = data.get('u_id')
-
         user = User.objects.get(id=id)
         employee = Employees.objects.get(u_id=id)
         e_id = employee.e_id
-        if Manager.objects.get(e_id=e_id).exists():
-            Manager.objects.get(e_id=e_id).delete()
+        if Manager.objects.filter(e_id=e_id).exists():
+            manager = Manager.objects.get(e_id=e_id)
+
+            # Fetch all employees managed by this manager
+            managed_employees = Employees.objects.filter(manager=manager)
+
+            # Update each employee to remove the manager
+            for emp in managed_employees:
+                emp.manager = None
+                emp.save()
+
+            # Delete the manager
+            manager.delete()
         if employee:
             employee.delete()
         if user:
             user.delete()
         return JsonResponse({'status': 'success', 'message': 'Employee deleted successfully'}, status=200)
+    except User.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'User not found'}, status=404)
     except Employees.DoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Employee not found'}, status=404)
+    except Manager.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Manager not found'}, status=404)
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
