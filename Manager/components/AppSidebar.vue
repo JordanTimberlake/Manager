@@ -50,8 +50,8 @@ const logout = async () => {
         router.push('/login');
     } catch (e) {
         console.error('Failed to logout', e);
-        error.value = 'Failed to logout';
-        show(error.value);
+        e.value = 'Failed to logout';
+        show(e.value);
     }
     loading.value = false;
 }
@@ -60,7 +60,6 @@ const user = ref(null)
 
 onMounted(async () => {
     await getUser();
-    console.log("TEST: " ,user.value)
 })
 </script>
 

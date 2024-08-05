@@ -194,9 +194,9 @@ onMounted(async () => {
     loading.value = true
     await employeeFetch();
     await managersFetch();
+    createCanvas();
     loading.value = false
 
-    createCanvas();
 
 
     console.log(user_id.value);
