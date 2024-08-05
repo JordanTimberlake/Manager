@@ -1,16 +1,24 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { GravatarQuickEditor } from '@gravatar-com/quick-editor';
 import Spinner from '~/components/Spinner.vue';
 import CryptoJS from 'crypto-js';
+import { useToast } from "primevue/usetoast";
+import Toast from 'primevue/toast';
+
+const config = useRuntimeConfig()
+const toast = useToast();
 
 const user_id = useCookie('user_id');
 const csrfToken = useCookie('token');
 const loading = ref(false);
+const CookieEmail = useCookie('email');
 
 const employeeData = ref(null);
 
-const generateHash = (data, algorithm = 'SHA256') => {
-  return 'https://gravatar.com/avatar/' + CryptoJS[algorithm](data).toString(CryptoJS.enc.Hex);
+const generateHash = (email) => {
+    console.log(email, " ", CryptoJS.SHA256(email));
+    return 'https://gravatar.com/avatar/' + CryptoJS.SHA256(email);
 }
 
 const employeeFetch = async () => {
@@ -24,7 +32,7 @@ const employeeFetch = async () => {
             credentials: 'include', // Ensure cookies are included in the request
         });
         employeeData.value = data.data
-        console.log(employeeData.value)
+        console.log(data.data)
     } catch (e) {
         console.error('Failed to fetch employees', e);
     }
@@ -36,6 +44,14 @@ onMounted(async () => {
     loading.value = false;
 });
 
+const initializeGravatarEditor = () => {
+    new GravatarQuickEditor({
+        email: CookieEmail.value,
+        editorTriggerSelector: '#edit-profile',
+        avatarSelector: '#gravatar-avatar',
+        scope: ['avatars'],
+    });
+}
 
 const refresh = () => {
     window.location.reload(true);
@@ -50,33 +66,51 @@ const refresh = () => {
                 <Spinner />
             </div>
         </div>
+        <Toast />
         <div v-show="!loading" class="card mt-6">
             <DataTable :value="employeeData" tableStyle="min-width: 50rem">
                 <template #header>
                     <div class="flex flex-wrap items-center justify-between gap-2">
                         <span class="text-xl font-bold">Employees</span>
-                        <Button rounded raised @click="refresh">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                                <path fill="currentColor"
-                                    d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 0 0-8 8a8 8 0 0 0 8 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18a6 6 0 0 1-6-6a6 6 0 0 1 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4z" />
-                            </svg>
-                        </Button>
+                        <div class="flex gap-4">
+                            <Button rounded raised @click="refresh">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 0 0-8 8a8 8 0 0 0 8 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18a6 6 0 0 1-6-6a6 6 0 0 1 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4z" />
+                                </svg>
+                            </Button>
+                            <Button rounded raised id="edit-profile" class="btn btn-primary" @click="initializeGravatarEditor">
+                                Edit Gravatar
+                            </Button>
+                        </div>
                     </div>
                 </template>
                 <Column header="Image">
                     <template #body="slotProps">
-                        <img :src=generateHash(email)
-                            alt="gravatarImage" class="w-24 rounded" />
+                        <img :src=generateHash(slotProps.data.user.email) alt="gravatarImage" class="w-24 rounded" />
                     </template>
                 </Column>
                 <Column field="user.first_name" header="First Name"></Column>
                 <Column field="user.last_name" header="Last Name"></Column>
+                <Column field="user.email" header="Email"></Column>
                 <Column field="position" header="Position"></Column>
-                <Column field="salary" header="Salary"></Column>
+                <Column header="Salary">
+                    <template #body="slotProps">
+                        <p alt="gravatarImage">
+                            R {{ slotProps.data.salary }}
+                        </p>
+                    </template>
+                </Column>
                 <Column field="birth_date" header="Birth Date"></Column>
             </DataTable>
         </div>
     </div>
 </template>
 
-<style></style>
+<style>
+.p-datatable { 
+    background-color: #01161E !important;
+    border: none;
+
+}
+</style>

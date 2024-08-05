@@ -6515,13 +6515,13 @@ const _routes = [
   {
     name: "employees",
     path: "/employees",
-    component: () => import('./employees-DYpCVJ9L.mjs').then((m) => m.default || m)
+    component: () => import('./employees-BmtfuJKn.mjs').then((m) => m.default || m)
   },
   {
     name: "home",
     path: "/home",
     meta: __nuxt_page_meta$2 || {},
-    component: () => import('./home-sD4Z1JCs.mjs').then((m) => m.default || m)
+    component: () => import('./home-CBceIRNF.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -6532,13 +6532,13 @@ const _routes = [
     name: "login",
     path: "/login",
     meta: __nuxt_page_meta$1 || {},
-    component: () => import('./login-z9fVCQl-.mjs').then((m) => m.default || m)
+    component: () => import('./login-p3O1JFW8.mjs').then((m) => m.default || m)
   },
   {
     name: "signup",
     path: "/signup",
     meta: __nuxt_page_meta || {},
-    component: () => import('./signup-ghOto9IQ.mjs').then((m) => m.default || m)
+    component: () => import('./signup-JKfhwq1o.mjs').then((m) => m.default || m)
   }
 ];
 const _wrapIf = (component, props, slots) => {
@@ -14182,7 +14182,7 @@ const plugins = [
   plugin_server_5j8vKM3F3X
 ];
 const layouts = {
-  default: () => import('./default-C3yOzbmC.mjs').then((m) => m.default || m),
+  default: () => import('./default-DuXyHsLa.mjs').then((m) => m.default || m),
   userauth: () => import('./userauth-DzIjLOMA.mjs').then((m) => m.default || m)
 };
 const LayoutLoader = defineComponent({
@@ -14435,6 +14435,8 @@ const _sfc_main$2 = {
         { name: "description", content: "Manager" }
       ],
       importScripts: [
+        { src: "https://secure.gravatar.com/js/gprofiles.js" },
+        { src: "https://unpkg.com/@gravatar-com/quick-editor@x.x.x" },
         { src: "https://secure.gravatar.com/js/gprofiles.js" }
       ]
     });
@@ -14567,5 +14569,5 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
-export { getHeight as $, exportCSV as A, BaseStyle as B, getOffset as C, addStyle as D, getIndex as E, FilterOperator as F, getOuterWidth as G, getHiddenElementOuterWidth as H, getHiddenElementOuterHeight as I, reorderArray as J, getWindowScrollTop as K, getOuterHeight as L, removeClass as M, addClass as N, isNotEmpty as O, isEmpty as P, getFirstFocusableElement as Q, invokeElementMethod as R, getNextElementSibling as S, getPreviousElementSibling as T, absolutePosition as U, isTouchDevice as V, relativePosition as W, getFocusableElements as X, useToast as Y, isVisible as Z, getWidth as _, navigateTo as a, isAndroid as a0, isPrintableCharacter as a1, getLastFocusableElement as a2, findLastIndex as a3, getSelection as a4, ToastEventBus as a5, defineNuxtRouteMiddleware as a6, useAppConfig as a7, loadIcons as a8, getIcon as a9, useNuxtApp as aa, asyncDataDefaults as ab, createError as ac, Icon as ad, br as ae, On as af, $dt as ag, isClient as ah, isFocusableElement as ai, createElement as aj, EventBus as ak, klona as al, useRequestEvent as am, destr as an, getScrollableParents as ao, toFlatCase as ap, isFunction as aq, config_default as ar, service_default as as, getKeyValue as at, isString as au, isArray as av, resolve as aw, isObject as ax, toCapitalCase as ay, PrimeVueService as az, useRuntimeConfig as b, withoutTrailingSlash as c, useHead as d, entry$1 as default, equals as e, contains as f, getAttribute as g, hasProtocol as h, isClickable as i, joinURL as j, clearSelection as k, resolveFieldData as l, localeComparator as m, nuxtLinkDefaults as n, sort as o, parseQuery$1 as p, FilterService as q, resolveRouteObject as r, setAttribute as s, FilterMatchMode as t, useRouter as u, findSingle as v, withTrailingSlash as w, findIndexInList as x, find as y, focus as z };
+export { getHeight as $, exportCSV as A, BaseStyle as B, getOffset as C, addStyle as D, getIndex as E, FilterOperator as F, getOuterWidth as G, getHiddenElementOuterWidth as H, getHiddenElementOuterHeight as I, reorderArray as J, getWindowScrollTop as K, getOuterHeight as L, removeClass as M, addClass as N, isNotEmpty as O, isEmpty as P, getFirstFocusableElement as Q, invokeElementMethod as R, getNextElementSibling as S, getPreviousElementSibling as T, absolutePosition as U, isTouchDevice as V, useToast as W, relativePosition as X, getFocusableElements as Y, isVisible as Z, getWidth as _, navigateTo as a, isAndroid as a0, isPrintableCharacter as a1, getLastFocusableElement as a2, findLastIndex as a3, getSelection as a4, ToastEventBus as a5, defineNuxtRouteMiddleware as a6, useAppConfig as a7, loadIcons as a8, getIcon as a9, useNuxtApp as aa, asyncDataDefaults as ab, createError as ac, Icon as ad, br as ae, On as af, $dt as ag, isClient as ah, isFocusableElement as ai, createElement as aj, EventBus as ak, klona as al, useRequestEvent as am, destr as an, getScrollableParents as ao, toFlatCase as ap, isFunction as aq, config_default as ar, service_default as as, getKeyValue as at, isString as au, isArray as av, resolve as aw, isObject as ax, toCapitalCase as ay, PrimeVueService as az, useRuntimeConfig as b, withoutTrailingSlash as c, useHead as d, entry$1 as default, equals as e, contains as f, getAttribute as g, hasProtocol as h, isClickable as i, joinURL as j, clearSelection as k, resolveFieldData as l, localeComparator as m, nuxtLinkDefaults as n, sort as o, parseQuery$1 as p, FilterService as q, resolveRouteObject as r, setAttribute as s, FilterMatchMode as t, useRouter as u, findSingle as v, withTrailingSlash as w, findIndexInList as x, find as y, focus as z };
 //# sourceMappingURL=server.mjs.map

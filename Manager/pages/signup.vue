@@ -35,10 +35,9 @@ const userData = ref({
 const handleCreateAccount = async () => {
     loading.value = true;
     if (userData.value.email === '' || userData.value.password === '' || userData.value.first_name === '' || userData.value.last_name === '') {
-        alert('Please fill in all fields')
+        show('Failed - Please make sure you have filled in all the input boxes');
         return
     }
-
     try {
         const data = await $fetch('https://vitreous-bert-jordantimberlake-dd542edd.koyeb.app/api/auth/signup/', {
             method: 'POST',
@@ -62,7 +61,7 @@ const handleCreateAccount = async () => {
     } catch (err) {
         'An error occurred';
         console.error('Failed to login', err);
-        err.value = 'Failed - Please make sure you have filled in all the input boxes';
+        err.value = 'Invalid Credentials';
         show(err.value);
     }
     loading.value = false;
@@ -88,11 +87,8 @@ const show = (message) => {
     toast.add({ severity: 'warn', summary: 'Error', detail: message, life: 5000 });
 };
 
-onMounted(() => {
-    if (csrfToken.value === '') {
-        getCsrfToken();
-    }
-    console.log('token ', csrfToken.value)
+onMounted(async () => {
+    await getCsrfToken();
 }) 
 </script>
 

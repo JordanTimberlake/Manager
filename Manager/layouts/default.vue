@@ -21,7 +21,7 @@ import AppFooter from '~/components/AppFooter.vue'
 }
 
 .slot {
-    margin-left: 190px; 
+    margin-left: 240px; 
     /* width of sidebar + padding size */
     padding: 10px;
 }

@@ -79,10 +79,8 @@ const show = (message) => {
     toast.add({ severity: 'warn', summary: 'Error', detail: message, life: 3000 });
 };
 
-onMounted(() => {
-    if (csrfToken.value === '') {
-        getCsrfToken();
-    }
+onMounted(async () => {
+    await getCsrfToken();
     console.log('token ', csrfToken.value)
 })
 
