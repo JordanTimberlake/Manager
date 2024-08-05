@@ -225,19 +225,24 @@ def delete_employee(request):
         user = User.objects.get(id=id)
         employee = Employees.objects.get(u_id=id)
         e_id = employee.e_id
-        if Manager.objects.filter(e_id=e_id).exists():
+        try:
+            # Check if the employee is a manager
             manager = Manager.objects.get(e_id=e_id)
-
+            
             # Fetch all employees managed by this manager
             managed_employees = Employees.objects.filter(manager=manager)
-
+            
             # Update each employee to remove the manager
             for emp in managed_employees:
                 emp.manager = None
                 emp.save()
-
+                
             # Delete the manager
             manager.delete()
+        except Manager.DoesNotExist:
+            # The employee is not a manager, so no need to update managed employees
+            pass
+
         if employee:
             employee.delete()
         if user:
