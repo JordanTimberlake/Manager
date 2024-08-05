@@ -3,6 +3,10 @@ import { ref, onMounted } from 'vue';
 import { GravatarQuickEditor } from '@gravatar-com/quick-editor';
 import Spinner from '~/components/Spinner.vue';
 import CryptoJS from 'crypto-js';
+import { useToast } from "primevue/usetoast";
+import Toast from 'primevue/toast';
+
+const toast = useToast();
 
 const user_id = useCookie('user_id');
 const csrfToken = useCookie('token');
@@ -60,6 +64,7 @@ const refresh = () => {
                 <Spinner />
             </div>
         </div>
+        <Toast />
         <div v-show="!loading" class="card mt-6">
             <DataTable :value="employeeData" tableStyle="min-width: 50rem">
                 <template #header>
