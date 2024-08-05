@@ -6521,19 +6521,24 @@ const _routes = [
     name: "home",
     path: "/home",
     meta: __nuxt_page_meta$2 || {},
-    component: () => import('./home-DOnNq15N.mjs').then((m) => m.default || m)
+    component: () => import('./home-sD4Z1JCs.mjs').then((m) => m.default || m)
+  },
+  {
+    name: "index",
+    path: "/",
+    component: () => import('./index-WQB-6f0y.mjs').then((m) => m.default || m)
   },
   {
     name: "login",
     path: "/login",
     meta: __nuxt_page_meta$1 || {},
-    component: () => import('./login-BLkVee5I.mjs').then((m) => m.default || m)
+    component: () => import('./login-z9fVCQl-.mjs').then((m) => m.default || m)
   },
   {
     name: "signup",
     path: "/signup",
     meta: __nuxt_page_meta || {},
-    component: () => import('./signup-BBt7SHhD.mjs').then((m) => m.default || m)
+    component: () => import('./signup-ghOto9IQ.mjs').then((m) => m.default || m)
   }
 ];
 const _wrapIf = (component, props, slots) => {

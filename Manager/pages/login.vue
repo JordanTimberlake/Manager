@@ -44,7 +44,7 @@ const login = async () => {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrfToken.value || '', // csrfToken.value
             },
-            credentials: 'include', // Ensure cookies are included in the request
+            withCredentials: true, // Ensure cookies are included in the request
         });
         console.log(data)
         user_id.value = data.user_id;
@@ -65,7 +65,7 @@ const getCsrfToken = async () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            withCredentials: true,  // Ensure cookies are included in the request
+            withCredentials: true, // Ensure cookies are included in the request
         });
         csrfToken.value = data.csrfToken;
         console.log(data)

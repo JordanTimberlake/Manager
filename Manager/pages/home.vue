@@ -45,7 +45,7 @@ const employeeFetch = async () => {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrfToken.value || '', // csrfToken.value
             },
-            credentials: 'include', // Ensure cookies are included in the request
+            withCredentials: true, // Ensure cookies are included in the request
         });
         employeeData.value = data.data
         console.log(employeeData.value)
@@ -62,7 +62,7 @@ const managersFetch = async () => {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrfToken.value || '', // csrfToken.value
             },
-            credentials: 'include',
+            withCredentials: true,
         });
         managerData.value = data.data
         console.log(managerData.value)
@@ -258,7 +258,7 @@ const createEmployee = async () => {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrfToken.value || '',
             },
-            credentials: 'include',
+            withCredentials: true,
             body: JSON.stringify({
                 e_id: newEmployee.value.e_id,
                 first_name: newEmployee.value.first_name,
@@ -310,7 +310,7 @@ const updateEmployee = async () => {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrfToken.value || '',
             },
-            credentials: 'include',
+            withCredentials: true,
             body: JSON.stringify(updatedEmployee),
         });
         showModal.value = false;
@@ -339,7 +339,7 @@ const deleteEmployee = async () => {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrfToken.value || '',
             },
-            credentials: 'include',
+            withCredentials: true,
             body: JSON.stringify(updatedEmployee),
         });
         showModal.value = false;
