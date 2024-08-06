@@ -33,7 +33,6 @@ const userData = ref({
 const login = async () => {
     loading.value = true;
     try {
-
         const data = await $fetch('https://vitreous-bert-jordantimberlake-dd542edd.koyeb.app/api/auth/signin/', {
             method: 'POST',
             body: JSON.stringify({
