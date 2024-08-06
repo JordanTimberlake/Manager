@@ -61,8 +61,9 @@ class Auth_User(View):
         data = json.loads(request.body)
         email = data.get('email')
         password = data.get('password')
+        username = User.objects.get(email=email).username
 
-        user = authenticate(username=email, password=password)
+        user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
             employee_id = Employees.objects.get(u_id=user).id
